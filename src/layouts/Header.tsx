@@ -20,7 +20,7 @@ export default function Header() {
                 <Link className="hidden px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" to={'/'}>S'incrire</Link>
                 <Link className="hidden px-4 py-2 font-semibold rounded-lg text-blue-500 border-2 border-blue-400" to={'/'}>Se connecter</Link>
                 <Link to={"/register"}><FaRegUserCircle className="w-7 h-7 " /></Link>
-                <Link to={"/cart"}><FaRegHeart className="w-7 h-7 " /></Link>
+                <Link to={"/login"}><FaRegHeart className="w-7 h-7 " /></Link>
                 <Link to={"/cart"}><IoCartOutline className="w-7 h-7" /></Link>
             </div>
             <RxHamburgerMenu className="w-10 h-10 hidden max-lg:block cursor-pointer" />

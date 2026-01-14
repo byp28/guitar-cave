@@ -3,7 +3,7 @@ import Article from "../components/Article";
 
 export default function Cart() {
   return (
-    <div className="w-full px-20 py-8 flex flex-col gap-12">
+    <div className="w-full px-20 py-20 flex flex-col gap-12">
         <h4 className="text-6xl font-semibold">Mon panier</h4>
         <div className="w-full flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
             <div className="w-2/3 max-lg:w-full flex flex-col gap-8">
