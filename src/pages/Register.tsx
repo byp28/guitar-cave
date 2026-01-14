@@ -2,7 +2,7 @@
 
 export default function Register() {
   return (
-    <div className="w-full h-140 p-4 gap-2 flex items-center justify-center flex-col">
+    <div className="w-full h-160 p-8 gap-2 flex items-center justify-center flex-col">
         <h4 className="py-8 w-md text-5xl">Créer un Compte</h4>
         <span className="w-md font-semibold">Pseudo</span>
         <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="pseudo" type="text" required />

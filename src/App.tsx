@@ -6,6 +6,7 @@ import Produit from './pages/Produit'
 import Cart from './pages/Cart'
 import Search from './pages/Search'
 import Register from './pages/Register'
+import Footer from './layouts/Footer'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path='/product/:id' element={<Produit/>} />
         <Route path='/search' element={<Search/>} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
       
     </>

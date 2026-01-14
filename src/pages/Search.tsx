@@ -3,7 +3,7 @@ import Card from "../components/Card";
 
 export default function Search() {
   return (
-    <div className="w-full px-20 py-8 flex flex-col gap-12">
+    <div className="w-full px-20 py-14 flex flex-col gap-12">
         <span className="text-5xl max-lg:text-2xl font-semibold">Recherche : "Harlay"</span>
         <span className="px-2 py-2 bg-black hidden max-lg:flex items-center justify-center rounded-full text-xl text-white font-semibold">Filtre</span>
         <div className="w-full flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
