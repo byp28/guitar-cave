@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex w-full justify-between items-center">
             <div className="flex gap-4 w-1/3 max-lg:hidden">
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Accueil</Link>
-                <Link className="font-semibold hover:text-blue-300" to={'/'}>Promo</Link>
+                <Link className="font-semibold hover:text-blue-300" to={'/search'}>Promo</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>A propos</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Service</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Contact</Link>
@@ -19,7 +19,7 @@ export default function Header() {
             <div className="flex gap-8 w-1/3 justify-end items-center max-lg:hidden">
                 <Link className="hidden px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600" to={'/'}>S'incrire</Link>
                 <Link className="hidden px-4 py-2 font-semibold rounded-lg text-blue-500 border-2 border-blue-400" to={'/'}>Se connecter</Link>
-                <Link to={"/cart"}><FaRegUserCircle className="w-7 h-7 " /></Link>
+                <Link to={"/register"}><FaRegUserCircle className="w-7 h-7 " /></Link>
                 <Link to={"/cart"}><FaRegHeart className="w-7 h-7 " /></Link>
                 <Link to={"/cart"}><IoCartOutline className="w-7 h-7" /></Link>
             </div>
