@@ -10,8 +10,8 @@ export default function Card() {
             <div className={`w-10 h-10 flex justify-center items-center bg-green-500 absolute bottom-0 right-0`}><MdAddShoppingCart className="w-5 h-5 text-white" /></div>
         </div>
         <span className="text-2xs font-light">Guitar - guitar electrique</span>
-        <Link to={"/"} className="font-semibold text-lg hover:text-blue-300">Harley Benton HWY-25BKS Progressive Series</Link>
-        <span className="text-2xl font-semibold flex justify-end">999€</span>
+        <Link to={"/product/1"} className="font-semibold text-lg hover:text-blue-300">Harley Benton HWY-25BKS Progressive Series</Link>
+        <span className="text-2xl font-bold flex justify-end">999€</span>
     </div>
   )
 }
