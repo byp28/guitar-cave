@@ -4,16 +4,21 @@ export type TCart = {
     id : number;
     name : string;
     price : number;
-    value : number;
+    quantity : number;
     img : string;
 }
 
 export type TInitialCart = {
-    cart : Array<TCart>
+    data : {
+        cart : Array<TCart>
+    }
+    
 }
 
 const initialState : TInitialCart = {
-    cart : []
+    data : {
+        cart : []
+    }
 }
 
 export const cartSlice = createSlice({
@@ -22,20 +27,27 @@ export const cartSlice = createSlice({
     reducers : {
         addProductToCart : (state, action)=>{
             if(!localStorage.getItem("cart")){
-                const currentCart = state;
-                currentCart.cart.push(action.payload)
-                localStorage.setItem("cart", JSON.stringify(currentCart.cart))
+                state.data.cart.push(action.payload)
+                localStorage.setItem("cart", JSON.stringify(state.data.cart))
             }else{
-                const currentCart : TInitialCart = {
-                    cart : []
-                };
-                currentCart.cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
-                currentCart.cart.push(action.payload)
-                localStorage.setItem("cart", JSON.stringify(currentCart.cart))
+                state.data.cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
+                state.data.cart.push(action.payload)
+                localStorage.setItem("cart", JSON.stringify(state.data.cart))
+            }
+        },
+        removeProductToCart : (state, action)=>{
+            const indexCart = state.data.cart.findIndex(p => p.id === action.payload)
+            state.data.cart.splice(indexCart,1)
+            localStorage.setItem("cart", JSON.stringify(state.data.cart))
+        },
+        fillCart : (state, action) =>{
+            if(localStorage.getItem("cart")){
+                state.data.cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
+                return state
             }
         }
     }
 })
 
-export const {addProductToCart} = cartSlice.actions;
+export const {addProductToCart, fillCart, removeProductToCart} = cartSlice.actions;
 export default cartSlice.reducer;

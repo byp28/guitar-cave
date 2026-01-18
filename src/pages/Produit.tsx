@@ -16,7 +16,7 @@ export default function Produit() {
         const test : TCart = {
             id : 1,
             name : "GG",
-            value : 1,
+            quantity : 1,
             price : 99,
             img : ""
         }

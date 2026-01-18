@@ -2,19 +2,17 @@ import { FaRegHeart, FaRegUserCircle } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
-import type { TCart } from "../features/cart";
+import { useSelector } from "react-redux";
+import type { TReducer } from "../Store";
+
 
 
 export default function Header() {
 
-    const cartCount = ()=>{
-        if(localStorage.getItem("cart")){
-            let cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
-            return cart.length
-        }
-        return 0
+    
 
-    }
+    const {cart} = useSelector((state : TReducer) => state.cart.data)
+
 
   return (
     <div className="w-full px-6 py-4 border-b border-b-gray-900 flex flex-col gap-6 justify-center items-center">
@@ -32,10 +30,10 @@ export default function Header() {
                 <Link className="hidden px-4 py-2 font-semibold rounded-lg text-blue-500 border-2 border-blue-400" to={'/'}>Se connecter</Link>
                 <Link to={"/register"}><FaRegUserCircle className="w-7 h-7 " /></Link>
                 <Link to={"/login"}><FaRegHeart className="w-7 h-7 " /></Link>
-                <span className="relative">
+                <span onClick={()=>console.log(cart)} className="relative">
                     {
-                        cartCount() === 0 ? " " 
-                        : <span className="w-4 h-4 absolute flex justify-center items-center top-0 right-0 text-xs text-white bg-red-500 rounded-full">{cartCount()}</span>
+                        cart.length === 0 ? " " 
+                        : <span className="w-4 h-4 absolute flex justify-center items-center top-0 right-0 text-xs text-white bg-red-500 rounded-full">{cart.length}</span>
 
                     }
                     <Link to={"/cart"}><IoCartOutline className="w-7 h-7" /></Link>

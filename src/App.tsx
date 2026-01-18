@@ -9,16 +9,23 @@ import Register from './pages/Register'
 import Footer from './layouts/Footer'
 import Login from './pages/Login'
 import AllCategorie from './pages/AllCategorie'
+import { useDispatch, useSelector } from 'react-redux'
+import { fillCart, type TCart, type TInitialCart } from './features/cart'
+import { useEffect, useState } from 'react'
 
 
 function App() {
 
+  const dispatch = useDispatch()
  
-
+  useEffect(()=>{
+    dispatch(fillCart("")) 
+  }, [])
+  
   return (
     <>
     <BrowserRouter>
-      <Header/>
+      <Header />
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/categorie' element={<AllCategorie/>} />
