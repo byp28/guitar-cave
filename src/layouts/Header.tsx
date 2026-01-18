@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex w-full justify-between items-center">
             <div className="flex gap-4 w-1/3 max-lg:hidden">
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Accueil</Link>
-                <Link className="font-semibold hover:text-blue-300" to={'/search'}>Promo</Link>
+                <Link className="font-semibold hover:text-blue-300" to={'/categorie'}>Catégorie</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>A propos</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Service</Link>
                 <Link className="font-semibold hover:text-blue-300" to={'/'}>Contact</Link>

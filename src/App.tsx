@@ -8,6 +8,7 @@ import Search from './pages/Search'
 import Register from './pages/Register'
 import Footer from './layouts/Footer'
 import Login from './pages/Login'
+import AllCategorie from './pages/AllCategorie'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>} />
+        <Route path='/categorie' element={<AllCategorie/>} />
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/cart' element={<Cart/>} />
