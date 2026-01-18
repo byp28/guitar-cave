@@ -4,11 +4,24 @@ import Categorie from "../components/Categorie";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
 import { useState } from "react";
 import Comment from "../components/Comment";
+import { addProductToCart, type TCart } from "../features/cart";
+import { useDispatch } from "react-redux";
 
 
 export default function Produit() {
 
     const [stars, setStars] = useState(0)
+    const dispatch = useDispatch()
+    const addProduct = ()=>{
+        const test : TCart = {
+            id : 1,
+            name : "GG",
+            value : 1,
+            price : 99,
+            img : ""
+        }
+        dispatch(addProductToCart(test))
+    }
 
   return (
     <div className="w-full px-20 py-8 flex flex-col gap-15">
@@ -38,7 +51,7 @@ export default function Produit() {
                         1
                         <IoIosArrowForward className="cursor-pointer hover:text-blue-400"/>
                     </div>
-                    <div className="w-full cursor-pointer font-semibold bg-gray-200 flex items-center justify-center gap-2 px-2 py-3 rounded-xl">
+                    <div onClick={()=> addProduct()} className="w-full cursor-pointer font-semibold bg-gray-200 flex items-center justify-center gap-2 px-2 py-3 rounded-xl">
                         Ajouter au panier
                         <MdAddShoppingCart/>
                     </div>

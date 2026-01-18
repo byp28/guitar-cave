@@ -3,7 +3,11 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 
+
 export default function Article() {
+
+
+
   return (
     <div className="w-full flex gap-4 border-t-2 border-t-gray-200">
         <div className="w-25 h-30 bg-gray-300">
