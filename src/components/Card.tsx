@@ -1,7 +1,7 @@
 import { MdAddShoppingCart, MdFavoriteBorder } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { addProductToCart, removeProductToCart, type TCart, type TInitialCart } from "../features/cart";
+import { addProductToCart, removeProductToCart, type TCart } from "../features/cart";
 import { TbShoppingCartX } from "react-icons/tb";
 import type { TReducer } from "../Store";
 
