@@ -1,7 +1,7 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MdFavoriteBorder } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { removeProductToCart, type TCart } from "../features/cart";
+import { removeProductToCart, updateProductToCart, type TCart } from "../features/cart";
 import { useDispatch } from "react-redux";
 
 
@@ -10,6 +10,16 @@ export default function Article({prod}: {prod : TCart}) {
 
     const dispatch = useDispatch()
 
+
+    const addQuantity = ()=>{
+        dispatch(updateProductToCart({id : prod.id, value : prod.quantity+1}))
+    }
+
+    const removeQuantity = ()=>{
+        if(prod.quantity >1){
+            dispatch(updateProductToCart({id : prod.id, value : prod.quantity - 1}))
+        } 
+     }
 
   return (
     <div className="w-full flex gap-4 border-t-2 border-t-gray-200">
@@ -20,9 +30,9 @@ export default function Article({prod}: {prod : TCart}) {
             <span className="text-lg w-full font-semibold flex justify-between items-center">
                 {prod.name}
                 <div className=" bg-gray-200 flex items-center text-sm justify-between gap-2 px-2 py-3 rounded-xl">
-                    <IoIosArrowBack className="cursor-pointer hover:text-blue-400" />
+                    <IoIosArrowBack onClick={()=> removeQuantity()} className="cursor-pointer hover:text-blue-400" />
                         {prod.quantity}
-                    <IoIosArrowForward className="cursor-pointer hover:text-blue-400"/>
+                    <IoIosArrowForward onClick={()=> addQuantity()} className="cursor-pointer hover:text-blue-400"/>
                 </div>
             </span>
             <div className="w-full flex justify-between items-center">

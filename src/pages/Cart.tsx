@@ -1,11 +1,24 @@
 import { FaStripe } from "react-icons/fa";
 import Article from "../components/Article";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import type { TReducer } from "../Store";
+import { useEffect, useState } from "react";
 
 export default function Cart() {
+    const [total, setTotal] = useState(0)
     const {cart} = useSelector((state: TReducer) => state.cart.data)
 
+    const calculatTotal = ()=>{
+        let t = 0
+        cart.map((p)=>{
+            t += p.quantity * p.price
+        })
+        return t
+    }
+
+    useEffect(()=>{
+        setTotal(calculatTotal())
+    },[cart])
   return (
     <div className="w-full px-20 py-20 flex flex-col gap-12">
         <h4 className="text-6xl font-semibold">Mon panier</h4>
@@ -25,7 +38,7 @@ export default function Cart() {
             <div className="w-1/3 max-lg:w-full flex flex-col gap-8">
                 <div className="w-full px-2 py-4 rounded-xl bg-gray-200 flex flex-col items-center justify-center gap-2">
                     <span className="text-4xl font-semibold">Montant total</span>
-                    <span className="text-4xl font-bold">999 €</span>
+                    <span className="text-4xl font-bold">{total} €</span>
                     <span className="text-lg font-semibold">Les prix sont indiqués avec TVA comprise</span>
                     <button className="px-15 py-1 rounded-full bg-black text-white font-semibold text-2xl flex items-center justify-center gap-4 cursor-pointer hover:bg-gray-900">Aller sur <FaStripe className="text-violet-500 w-12 h-12 flex items-center justify-center" /></button>
                 </div>

@@ -2,27 +2,72 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MdAddShoppingCart, MdFavoriteBorder } from "react-icons/md";
 import Categorie from "../components/Categorie";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Comment from "../components/Comment";
-import { addProductToCart, type TCart } from "../features/cart";
-import { useDispatch } from "react-redux";
+import { addProductToCart, removeProductToCart, updateProductToCart, type TCart } from "../features/cart";
+import { useDispatch, useSelector } from "react-redux";
+import type { TReducer } from "../Store";
+import { TbShoppingCartX } from "react-icons/tb";
 
 
 export default function Produit() {
 
     const [stars, setStars] = useState(0)
+    const [quantity, SetQuantity] = useState(1)
+    const {cart} = useSelector((state: TReducer) => state.cart.data)
+
+
+    const ProductInCart = ()=>{
+        if(cart.find((c)=> c.id===2)){
+            return true
+        }
+
+        return false
+    }
+
+    const AddQuantity = ()=>{
+        if(ProductInCart()){
+            let prod = cart.find((c)=> c.id===2)
+            SetQuantity(prod?.quantity as number)
+            SetQuantity(quantity+1)
+            dispatch(updateProductToCart({id : 2, value : quantity + 1}))
+        }else{
+            SetQuantity(quantity+1)
+        }
+    }
+    const removeQuantity = ()=>{
+        if(quantity>1){
+            if(ProductInCart()){
+                let prod = cart.find((c)=> c.id===2)
+                SetQuantity(prod?.quantity as number)
+                SetQuantity(quantity-1)
+                dispatch(updateProductToCart({id : 2, value : quantity - 1}))
+            }else{
+                SetQuantity(quantity-1)
+            }
+        }
+        
+    }
+
     const dispatch = useDispatch()
     const addProduct = ()=>{
         const test : TCart = {
-            id : 1,
+            id : 2,
             name : "GG",
-            quantity : 1,
+            quantity : quantity,
             price : 99,
             img : ""
         }
         dispatch(addProductToCart(test))
     }
 
+    useEffect(()=>{
+        if(ProductInCart()){
+            let prod = cart.find((c)=> c.id===2)
+            SetQuantity(prod?.quantity as number)
+            console.log(prod)
+        }
+    },[])
   return (
     <div className="w-full px-20 py-8 flex flex-col gap-15">
         <div className="w-full flex max-lg:flex-col max-lg:justify-center max-lg:items-center justify-around max-lg:gap-4">
@@ -47,14 +92,21 @@ export default function Produit() {
                 </div>
                 <div className="w-full flex gap-5 items-center">
                     <div className=" bg-gray-200 flex items-center justify-between gap-2 px-2 py-3 rounded-xl">
-                        <IoIosArrowBack className="cursor-pointer hover:text-blue-400" />
-                        1
-                        <IoIosArrowForward className="cursor-pointer hover:text-blue-400"/>
+                        <IoIosArrowBack onClick={()=> removeQuantity()} className="cursor-pointer hover:text-blue-400" />
+                        {quantity}
+                        <IoIosArrowForward onClick={()=> AddQuantity()} className="cursor-pointer hover:text-blue-400"/>
                     </div>
-                    <div onClick={()=> addProduct()} className="w-full cursor-pointer font-semibold bg-gray-200 flex items-center justify-center gap-2 px-2 py-3 rounded-xl">
-                        Ajouter au panier
-                        <MdAddShoppingCart/>
-                    </div>
+                    {
+                        ProductInCart() 
+                        ?<div onClick={()=> dispatch(removeProductToCart(2))} className="w-full cursor-pointer font-semibold bg-red-500 text-white flex items-center justify-center gap-2 px-2 py-3 rounded-xl">
+                            Retirer du panier
+                            <TbShoppingCartX/>
+                        </div>
+                        :<div onClick={()=> addProduct()} className="w-full cursor-pointer font-semibold bg-gray-200 flex items-center justify-center gap-2 px-2 py-3 rounded-xl">
+                            Ajouter au panier
+                            <MdAddShoppingCart/>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -24,6 +24,7 @@ export default function Card() {
   const removeProduct = (id:number)=>{
     dispatch(removeProductToCart(id))
   }
+  
   const ProductInCart = ()=>{
     if(cart.find((c)=> c.id===1)){
       return true

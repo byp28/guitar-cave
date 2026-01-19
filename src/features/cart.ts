@@ -40,6 +40,15 @@ export const cartSlice = createSlice({
             state.data.cart.splice(indexCart,1)
             localStorage.setItem("cart", JSON.stringify(state.data.cart))
         },
+        updateProductToCart : (state, action)=>{
+            const product = state.data.cart.find(p => p.id === action.payload.id as number)
+            if(product){
+                product.quantity = action.payload.value
+                console.log(action.payload.value)
+                localStorage.setItem("cart", JSON.stringify(state.data.cart))
+            }
+            
+        },
         fillCart : (state, action) =>{
             if(localStorage.getItem("cart")){
                 state.data.cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
@@ -49,5 +58,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const {addProductToCart, fillCart, removeProductToCart} = cartSlice.actions;
+export const {addProductToCart, fillCart, removeProductToCart, updateProductToCart} = cartSlice.actions;
 export default cartSlice.reducer;
