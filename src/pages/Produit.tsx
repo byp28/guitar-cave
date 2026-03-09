@@ -68,8 +68,9 @@ export default function Produit() {
             console.log(prod)
         }
     },[])
+
   return (
-    <div className="w-full px-20 py-8 flex flex-col gap-15">
+    <div className="w-full px-25  py-8 pt-45 flex flex-col gap-15">
         <div className="w-full flex max-lg:flex-col max-lg:justify-center max-lg:items-center justify-around max-lg:gap-4">
             <div className="w-1/2 max-lg:w-full max-lg:justify-center max-lg:items-center max-lg:flex-col flex gap-3">
                 <div className="w-1/8 max-lg:w-full flex max-lg:flex-row flex-col gap-4 max-lg:items-center max-lg:justify-center">
@@ -91,7 +92,7 @@ export default function Produit() {
                     </div>
                 </div>
                 <div className="w-full flex gap-5 items-center">
-                    <div className=" bg-gray-200 flex items-center justify-between gap-2 px-2 py-3 rounded-xl">
+                    <div className=" bg-[#FF0022] flex items-center justify-between gap-2 px-2 py-3 rounded-xl">
                         <IoIosArrowBack onClick={()=> removeQuantity()} className="cursor-pointer hover:text-blue-400" />
                         {quantity}
                         <IoIosArrowForward onClick={()=> AddQuantity()} className="cursor-pointer hover:text-blue-400"/>
@@ -116,7 +117,6 @@ export default function Produit() {
             <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus veritatis fugiat adipisci. Similique, blanditiis culpa. Repudiandae sit dolorem id iure enim, rem sint dignissimos! Temporibus doloremque cum non nam accusamus!</p>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus expedita, nulla laborum fuga possimus odit ex accusantium libero laudantium nam, distinctio aut iusto ipsum repellat commodi aspernatur repudiandae quia culpa?</p>
         </div>
-        <Categorie categorieName="Autres produits"/>
         <section className="flex flex-col gap-8 text-justify font-medium">
             <h4 className="text-4xl font-semibold">Laissez une évalution</h4>
             <div className="w-full flex items-center justify-center gap-4">

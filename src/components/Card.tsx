@@ -44,7 +44,7 @@ export default function Card() {
             }
         </div>
         <span className="text-2xs font-light">Guitar - guitar electrique</span>
-        <Link to={"/product/1"} className="font-semibold text-lg hover:text-blue-300">Harley Benton HWY-25BKS Progressive Series</Link>
+        <Link to={"/product/1"} className="font-semibold text-lg hover:text-[#FF0022]">Harley Benton HWY-25BKS Progressive Series</Link>
         <span className="text-2xl font-bold flex justify-end">999€</span>
     </div>
   )

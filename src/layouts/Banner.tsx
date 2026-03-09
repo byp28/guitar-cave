@@ -27,7 +27,7 @@ export default function Banner() {
     },[])
     
   return (
-    <div className="w-full h-120 flex items-center relative">
+    <div className="w-full h-screen flex items-center relative">
         <div className="flex w-full justify-between items-center z-2">
             <IoIosArrowBack onClick={()=>toggleImage(-1)} className="w-15 h-15 p-2 cursor-pointer" />
             <IoIosArrowForward onClick={()=>toggleImage(1)} className="w-15 h-15 p-2 cursor-pointer" />
@@ -42,20 +42,20 @@ export default function Banner() {
 
             </div>
         </div>
-        <div className={sliderIndex === 1 ? "bg-red-200 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
-
+        <div className={sliderIndex === 1 ? "bg-red-900 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
+            <img className="absolute top-0 left-0 w-full h-full object-cover" src="/assets/img/cover1.jpg"  alt="cover" />
         </div>
         <div className={sliderIndex === 2 ? "bg-neutral-200 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
-
+            <img className="absolute top-0 left-0 w-full h-full object-cover" src="/assets/img/cover2.jpg"  alt="cover" />
         </div>
         <div className={sliderIndex === 3 ? "bg-blue-200 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
-
+            <img className="absolute top-0 left-0 w-full h-full object-cover" src="/assets/img/cover3.jpg"  alt="cover" />
         </div>
         <div className={sliderIndex === 4 ? "bg-yellow-200 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
-
+            <img className="absolute top-0 left-0 w-full h-full object-cover" src="/assets/img/cover4.jpg"  alt="cover" />
         </div>
         <div className={sliderIndex === 5 ? "bg-amber-200 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
-
+            <img className="absolute top-0 left-0 w-full h-full object-cover" src="/assets/img/cover5.jpg"  alt="cover" />
         </div>
         
     </div>
