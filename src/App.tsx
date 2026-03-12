@@ -19,6 +19,10 @@ function App() {
 
   const dispatch = useDispatch()
   const [hiddeHeader, setHiddeHeader] = useState(false)
+
+  const toggleNavBar = (toggle:boolean)=>{
+    setHiddeHeader(toggle)
+  }
  
   useEffect(()=>{
     dispatch(fillCart("")) 
@@ -29,14 +33,14 @@ function App() {
     <BrowserRouter>
       {hiddeHeader ? <Header /> : null}
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/categorie' element={<AllCategorie/>} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/admin' element={<Admin/>}/>
+        <Route path='/' element={<Home toggleNavBar={toggleNavBar} />} />
+        <Route path='/categorie' element={<AllCategorie toggleNavBar={toggleNavBar} />} />
+        <Route path='/register' element={<Register toggleNavBar={toggleNavBar} />} />
+        <Route path='/admin' element={<Admin toggleNavBar={toggleNavBar} />}/>
         <Route path='/login' element={<Login/>} />
-        <Route path='/cart' element={<Cart/>} />
-        <Route path='/product/:id' element={<Produit/>} />
-        <Route path='/search' element={<Search/>} />
+        <Route path='/cart' element={<Cart toggleNavBar={toggleNavBar} />} />
+        <Route path='/product/:id' element={<Produit toggleNavBar={toggleNavBar} />} />
+        <Route path='/search' element={<Search toggleNavBar={toggleNavBar} />} />
       </Routes>
       {hiddeHeader ? <Footer/> : null}
       

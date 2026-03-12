@@ -4,7 +4,8 @@ import {  useSelector } from "react-redux";
 import type { TReducer } from "../Store";
 import { useEffect, useState } from "react";
 
-export default function Cart() {
+export default function Cart({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
+    
     const [total, setTotal] = useState(0)
     const {cart} = useSelector((state: TReducer) => state.cart.data)
 
@@ -17,10 +18,11 @@ export default function Cart() {
     }
 
     useEffect(()=>{
+        toggleNavBar(true)
         setTotal(calculatTotal())
     },[cart])
   return (
-    <div className="w-full px-20 py-20 flex flex-col gap-12">
+    <div className="w-full px-20 py-20 pt-45 min-h-screen flex flex-col gap-12">
         <h4 className="text-6xl font-semibold">Mon panier</h4>
         <div className="w-full flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
             <div className="w-2/3 max-lg:w-full flex flex-col gap-8">

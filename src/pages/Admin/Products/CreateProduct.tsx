@@ -1,7 +1,10 @@
 import { IoIosArrowDown } from "react-icons/io";
 import Card from "../../../components/Card";
 
-export default function CreateProduct() {
+export default function CreateProduct({changeAction} : {changeAction : (name:string)=> void}) {
+
+    
+
   return (
     <div className="w-full flex flex-col gap-8">
         <span className='text-5xl font-medium'>Ajouter un Produit</span>

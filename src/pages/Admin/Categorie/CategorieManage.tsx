@@ -13,7 +13,7 @@ export default function CategorieManage() {
   return (
     <div className='w-4/5 min-h-screen py-14 px-18 overflow-y-auto flex flex-col gap-10'>
         {action ==="index" && <CategorieIndex changeAction={changeAction}/>}
-        {action ==="create" && <CreateCategorie/>}
+        {action ==="create" && <CreateCategorie changeAction={changeAction}/>}
     </div>
   )
 }

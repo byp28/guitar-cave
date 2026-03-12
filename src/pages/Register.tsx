@@ -1,8 +1,8 @@
-import {  useState } from "react"
+import {  useEffect, useState } from "react"
 import { checkLengthPassword, checkName, checkPassword } from "../features/CheckFormValue";
 
 
-export default function Register() {
+export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
 
   const [error, setError] = useState({
     pseudo : "",
@@ -45,7 +45,10 @@ export default function Register() {
 
   }
 
-
+  
+    useEffect(()=>{
+        toggleNavBar(false)
+      },[])
 
 
 

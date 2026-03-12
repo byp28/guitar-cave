@@ -1,10 +1,15 @@
 
+import { useEffect } from "react";
 import CategorieCard from "../components/CategorieCard";
 
 
-export default function AllCategorie() {
+export default function AllCategorie({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
+    
+    useEffect(()=>{
+        toggleNavBar(true)
+      },[])
   return (
-    <div className="w-full  flex flex-col gap-12">
+    <div className="w-full  flex flex-col pt-45 min-h-screen gap-12">
         <div className="w-full bg-gray-200 flex px-10 items-center justify-center py-10">
             <h4>Name</h4>
         </div>

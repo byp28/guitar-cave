@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import Card from "../components/Card";
 
 
-export default function Search() {
+export default function Search({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
+
+    useEffect(()=>{
+        toggleNavBar(true)
+      },[])
   return (
     <div className="w-full px-20 py-14 flex flex-col gap-12">
         <span className="text-5xl max-lg:text-2xl font-semibold">Recherche : "Harlay"</span>

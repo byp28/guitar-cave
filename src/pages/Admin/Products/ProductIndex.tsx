@@ -2,12 +2,12 @@ import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
 
-export default function ProductIndex() {
+export default function ProductIndex({changeAction} : {changeAction : (name:string)=> void}) {
   return (
     <>
         <div className="w-full flex items-center justify-between">
             <span className='text-5xl font-medium'>Produits</span>
-            <span className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
+            <span onClick={()=>changeAction("create")} className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
         </div>
         <div className="flex gap-8">
             <input className="w-70 px-4 py-2 bg-gray-200 outline-0 rounded-lg" placeholder="Nom de l'article" type="text" />

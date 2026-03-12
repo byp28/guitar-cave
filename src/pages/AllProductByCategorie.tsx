@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import Card from "../components/Card";
 
 
-export default function AllProductByCategorie() {
+export default function AllProductByCategorie({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
+
+    useEffect(()=>{
+        toggleNavBar(true)
+      },[])
   return (
     <div className="w-full  flex flex-col gap-12">
         <div className="w-full bg-gray-200 flex px-10 items-center justify-center py-10">

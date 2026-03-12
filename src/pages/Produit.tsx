@@ -10,7 +10,7 @@ import type { TReducer } from "../Store";
 import { TbShoppingCartX } from "react-icons/tb";
 
 
-export default function Produit() {
+export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
 
     const [stars, setStars] = useState(0)
     const [quantity, SetQuantity] = useState(1)
@@ -62,6 +62,7 @@ export default function Produit() {
     }
 
     useEffect(()=>{
+        toggleNavBar(true)
         if(ProductInCart()){
             let prod = cart.find((c)=> c.id===2)
             SetQuantity(prod?.quantity as number)
