@@ -4,15 +4,13 @@ import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
 import { deleteCategorie, getCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
 
-export default function CategorieIndex({changeAction} : {changeAction : (name:string)=> void}) {
+export default function CategorieIndex({changeAction, selectCategorie} : {changeAction : (name:string)=> void, selectCategorie : (n:number,c:TCategorie)=> void,}) {
 
     const [categories, setCategories] = useState<TCategorie[]>([])
 
     const fillCategories = async ()=>{
         const CategorieData = await getCategorie()
         setCategories(CategorieData.data)
-        console.log(categories)
-        console.log(CategorieData.data)
     }
 
     const deleteOneCategorie = async (id:number)=>{
@@ -21,6 +19,11 @@ export default function CategorieIndex({changeAction} : {changeAction : (name:st
         if(categorieResponse.data.code === 202){
             fillCategories()
         }
+    }
+
+    const editOneCategorie = (id:number, obj:TCategorie)=>{
+        selectCategorie(id,obj)
+        changeAction("edit")
     }
 
     useEffect(()=>{
@@ -63,18 +66,13 @@ export default function CategorieIndex({changeAction} : {changeAction : (name:st
                 </tr>
             </thead>
             <tbody className="divide-y divide-table-line">
-                <tr>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">John Brown</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                        <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg text-primary hover:text-primary-hover focus:outline-hidden focus:text-primary-focus disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                    </td>
-                </tr>
                 {
                     categories.map((c,key)=>(
                         <tr key={key}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{c.designation}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                                <button onClick={()=>deleteOneCategorie(c.id as number)} type="button" className="hover:text-[#B91372] cursor-pointer">Delete</button>
+                            <td className="px-6 py-4 whitespace-nowrap flex justify-end gap-2 text-end text-sm font-medium">
+                                <button onClick={()=>editOneCategorie(c.id as number, c)} type="button" className="hover:text-[#B91372] cursor-pointer">Modifier</button>
+                                <button onClick={()=>deleteOneCategorie(c.id as number)} type="button" className="hover:text-[#B91372] cursor-pointer">Suprimmer</button>
                             </td>
                         </tr>
                     ))

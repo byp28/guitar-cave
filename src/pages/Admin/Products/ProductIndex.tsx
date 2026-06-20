@@ -1,8 +1,26 @@
+import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
+import { getProducts, type TProduct } from "../../../utils/guitarCaveApi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 export default function ProductIndex({changeAction} : {changeAction : (name:string)=> void}) {
+
+    const [products, setProducts] = useState<TProduct[]>([])
+    
+    const fillProducts = async ()=>{
+        const ProductData = await getProducts()
+        console.log(ProductData.data)
+        setProducts(ProductData.data)
+    }
+
+    useEffect(()=>{
+        if(products.length <= 0){
+            fillProducts()
+        }
+    }, [products])
   return (
     <>
         <div className="w-full flex items-center justify-between">
@@ -33,19 +51,26 @@ export default function ProductIndex({changeAction} : {changeAction : (name:stri
                 <th scope="col" className="px-6 py-3 text-start font-medium text-muted-foreground-1">Nom</th>
                 <th scope="col" className="px-6 py-3 text-start font-medium text-muted-foreground-1">Prix</th>
                 <th scope="col" className="px-6 py-3 text-start  font-medium text-muted-foreground-1">Categorie</th>
-                <th scope="col" className="px-6 py-3 text-end font-medium text-muted-foreground-1">Sous-Catégorie</th>
-                <th scope="col" className="px-6 py-3 text-end font-medium text-muted-foreground-1">Action</th>
+                <th scope="col" className="px-6 py-3 text-start  font-medium text-muted-foreground-1">Sous-Catégorie</th>
+                <th scope="col" className="px-6 py-3 text-start  font-medium text-muted-foreground-1">Action</th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-table-line">
-                <tr>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">John Brown</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">45</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">New York No. 1 Lake Park</td>
-                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg text-primary hover:text-primary-hover focus:outline-hidden focus:text-primary-focus disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                </td>
-                </tr>
+                {
+                    products.map((prod, key)=>(
+                        <tr key={key}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{prod.nom}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{prod.price} €</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{prod.categorie}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{prod.sousCategorie}</td>
+                            <td className="px-6 py-4 whitespace-nowrap flex gap-2 text-end text-sm font-medium">
+                                <HiOutlinePencilSquare  className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                            </td>
+                        </tr>
+                    ))
+                }
+                
 
             </tbody>
             </table>

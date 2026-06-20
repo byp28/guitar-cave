@@ -1,13 +1,47 @@
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
+import { deleteSousCategorie, getSousCategorie, type TSousCategorie } from "../../../utils/guitarCaveApi";
+import { useEffect, useState } from "react";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { AiOutlineDelete } from "react-icons/ai";
 
-export default function SousCategorieIndex() {
-  return (
+export default function SousCategorieIndex({changeAction, selectCSousCategorie} : {changeAction : (name:string)=> void, selectCSousCategorie : (n:number,c:TSousCategorie)=> void,}) {
+  
+    const [sousCategories, setSousCategories] = useState<TSousCategorie[]>([])
+
+    const fillSousCategories = async ()=>{
+        const sousCategorieData = await getSousCategorie()
+        console.log(sousCategorieData.data)
+        setSousCategories(sousCategorieData.data)
+    }
+
+    const deleteOneCategorie = async (id:number)=>{
+        const categorieResponse = await deleteSousCategorie(id)
+
+        if(categorieResponse.data.code === 202){
+            fillSousCategories()
+        }
+    }
+
+    const editOneCategorie = (id:number, obj:TSousCategorie)=>{
+        selectCSousCategorie(id,obj)
+        changeAction("edit")
+    }
+
+    useEffect(()=>{
+        if(sousCategories.length<=0){
+            fillSousCategories()
+            
+        }
+        console.log(sousCategories)
+    },[sousCategories])
+  
+return (
     <>
         <div className="w-full flex items-center justify-between">
-            <span className='text-5xl font-medium'>Categories</span>
-            <span className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
+            <span className='text-5xl font-medium'>Sous-Categories</span>
+            <span onClick={()=>changeAction("create")} className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
         </div>
         <div className="flex gap-8">
             <input className="w-70 px-4 py-2 bg-gray-200 outline-0 rounded-lg" placeholder="Nom de la categorie" type="text" />
@@ -31,16 +65,25 @@ export default function SousCategorieIndex() {
             <thead>
                 <tr>
                 <th scope="col" className="px-6 py-3 text-start font-medium text-muted-foreground-1">designation</th>
+                <th scope="col" className="px-6 py-3 text-start font-medium text-muted-foreground-1">Categorie</th>
                 <th scope="col" className="px-6 py-3 text-end font-medium text-muted-foreground-1">Action</th>
                 </tr>
             </thead>
             <tbody className="divide-y divide-table-line">
-                <tr>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">John Brown</td>
-                <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg text-primary hover:text-primary-hover focus:outline-hidden focus:text-primary-focus disabled:opacity-50 disabled:pointer-events-none">Delete</button>
-                </td>
-                </tr>
+                {
+                    sousCategories.map((sousCat,key)=>(
+                        <tr key={key}>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{sousCat.designation}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{sousCat.categorie}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex justify-end gap-4">
+                                <HiOutlinePencilSquare onClick={()=>editOneCategorie(sousCat.id as number, sousCat)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                {/* <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg text-primary hover:text-primary-hover focus:outline-hidden focus:text-primary-focus disabled:opacity-50 disabled:pointer-events-none">Delete</button> */}
+                            </td>
+                        </tr>
+                    ))
+                }
+               
 
             </tbody>
             </table>

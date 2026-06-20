@@ -1,9 +1,9 @@
 
 import { useState } from "react";
-import CategorieCard from "../../../components/CategorieCard";
-import { createCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
+import { updateCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
+import CategorieExemple from "../../../components/CategorieExemple";
 
-export default function CreateCategorie({changeAction} : {changeAction : (name:string)=> void}) {
+export default function EditCategorie({changeAction, id, categorieObject} : {changeAction : (name:string)=> void, id:number, categorieObject : TCategorie}) {
   
   const [loading , setLoading] = useState<boolean>(false);
 
@@ -15,14 +15,14 @@ export default function CreateCategorie({changeAction} : {changeAction : (name:s
       const newCategorie:TCategorie = {
         designation : formData.get("designation") as string,
         imgFile : formData.get("imgFile") as File,
-        img : "none",
+        img : categorieObject.img,
       }
 
       console.log(newCategorie)
       try{
-        const categorieCreate = await createCategorie(newCategorie);
+        const categorieEdit = await updateCategorie(newCategorie, id);
         
-        if(categorieCreate.data.code === 201){
+        if(categorieEdit.data.code === 201){
             setLoading(false)
             changeAction("index")
         }else{
@@ -36,12 +36,12 @@ export default function CreateCategorie({changeAction} : {changeAction : (name:s
 
   return (
     <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Ajouter un Produit</span>
+        <span className='text-5xl font-medium'>Modifier une Catégorie</span>
         <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
           <div className="flex flex-col gap-6">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Designation</span>
-                  <input name="designation" type="text" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
+                  <input name="designation" type="text" defaultValue={categorieObject.designation} className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Image</span>
@@ -51,7 +51,7 @@ export default function CreateCategorie({changeAction} : {changeAction : (name:s
                 Valider
               </button>
           </div>
-          <CategorieCard/>
+          <CategorieExemple img={categorieObject.img} name={categorieObject.designation}/>
         </form>
         
     </div>

@@ -5,19 +5,10 @@ import CategorieSelecteur from "../../../components/Form/CategorieSelecteur";
 import SousCategorieSelecteur from "../../../components/Form/SousCategorieSelecteur";
 import MultiDescription from "../../../components/Form/MultiDescription";
 import MultiTechDescription from "../../../components/Form/MultiTechDescription";
+import type { TDescription, TTechDescription } from "./CreateProduct";
 
-export type TDescription = {
-    id : number,
-    value : string
-}
 
-export type TTechDescription = {
-    id : number,
-    key : string,
-    value : string
-}
-
-export default function CreateProduct({changeAction} : {changeAction : (name:string)=> void}) {
+export default function EditProduct({changeAction} : {changeAction : (name:string)=> void}) {
 
     const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(null)
     const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(null)
