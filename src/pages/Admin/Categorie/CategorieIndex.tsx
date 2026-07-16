@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
-import { deleteCategorie, getCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
+import { deleteCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../../hook";
+import type { TReducer } from "../../../Store";
+import { fetchCategorie } from "../../../features/CategorieSlice";
+import { AiOutlineDelete } from "react-icons/ai";
+import { HiOutlinePencilSquare } from "react-icons/hi2";
 
 export default function CategorieIndex({changeAction, selectCategorie} : {changeAction : (name:string)=> void, selectCategorie : (n:number,c:TCategorie)=> void,}) {
 
-    const [categories, setCategories] = useState<TCategorie[]>([])
-
-    const fillCategories = async ()=>{
-        const CategorieData = await getCategorie()
-        setCategories(CategorieData.data)
-    }
+    const {categories, loadingCategorie} = useSelector((state:TReducer)=> state.categorie.data)
+    const Appdispatch = useAppDispatch()
 
     const deleteOneCategorie = async (id:number)=>{
         const categorieResponse = await deleteCategorie(id)
 
         if(categorieResponse.data.code === 202){
-            fillCategories()
+            //fillCategories()
         }
     }
 
@@ -27,9 +29,13 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
     }
 
     useEffect(()=>{
-        if(categories.length<=0){
-            fillCategories()
-            
+        if(loadingCategorie){
+            Appdispatch(fetchCategorie())
+        }
+        
+        if(!loadingCategorie){
+            window.scrollTo(0, 0);
+      
         }
     },[categories])
 
@@ -71,8 +77,8 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
                         <tr key={key}>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{c.designation}</td>
                             <td className="px-6 py-4 whitespace-nowrap flex justify-end gap-2 text-end text-sm font-medium">
-                                <button onClick={()=>editOneCategorie(c.id as number, c)} type="button" className="hover:text-[#B91372] cursor-pointer">Modifier</button>
-                                <button onClick={()=>deleteOneCategorie(c.id as number)} type="button" className="hover:text-[#B91372] cursor-pointer">Suprimmer</button>
+                                <HiOutlinePencilSquare onClick={()=>editOneCategorie(c.id as number, c)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete onClick={()=>deleteOneCategorie(c.id as number)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
                             </td>
                         </tr>
                     ))

@@ -7,12 +7,25 @@ export type TCategorie = {
     imgFile? : File
 }
 
+export type TUser = {
+  id? : number,
+  nom : string,
+  email : string,
+  password : string,
+  type?: string
+}
+
+export type TLogin = {
+  email : string,
+  password : string,
+}
+
 export type TProduct = {
   id ? : number,
   nom : string,
   price : number,
   description : string,
-  Techdescription : string,
+  description_technique : string,
   id_categorie? : number,
   id_sous_categorie? : number,
   image : string,
@@ -47,8 +60,16 @@ const api = axios.create({
 });
 
 
+export const getUser = () => api.get("/product");
+export const createUser = (newUser: TUser) => api.post("/user", newUser);
+export const updateUser = (newProduct: TProduct, id:number) => api.post("/product/"+id, newProduct);
+export const deleteUSer = (id:number) => api.post(`/product/${id}/delete`);
+export const loginUser = (user: TLogin) => api.post("/auth/login", user);
+
 export const getProducts = () => api.get("/product");
 export const createProduct = (newProduct: TProduct) => api.post("/product", newProduct);
+export const updateProduct = (newProduct: TProduct, id:number) => api.post("/product/"+id, newProduct);
+export const deleteProduct = (id:number) => api.post(`/product/${id}/delete`);
 
 export const getCategorie = () => api.get("/categorie");
 export const deleteCategorie = (id:number) => api.post(`/categorie/${id}/delete`);

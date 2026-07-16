@@ -100,7 +100,7 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
         nom : formData.get("name") as string,
         price : parseFloat(formData.get("price") as string), 
         description : descriptionString(),
-        Techdescription : techDescriptionString(),
+        description_technique : techDescriptionString(),
         id_categorie : categorieSelected?.id as number,
         id_sous_categorie : sousCategorieSelected?.id as number,
         imgFile : formData.get("imgFile") as File,

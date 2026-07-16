@@ -1,26 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
-import { getProducts, type TProduct } from "../../../utils/guitarCaveApi";
+import { deleteProduct, type TProduct } from "../../../utils/guitarCaveApi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import type { TReducer } from "../../../Store";
+import { useAppDispatch } from "../../../hook";
+import { fetchProduct } from "../../../features/ProductSlice";
 
-export default function ProductIndex({changeAction} : {changeAction : (name:string)=> void}) {
+export default function ProductIndex({changeAction,selectProductID} : {changeAction : (name:string)=> void, selectProductID : (prod : TProduct)=>void}) {
 
-    const [products, setProducts] = useState<TProduct[]>([])
-    
-    const fillProducts = async ()=>{
-        const ProductData = await getProducts()
-        console.log(ProductData.data)
-        setProducts(ProductData.data)
+    const {products, loading} = useSelector((state:TReducer)=> state.product.data)
+      const Appdispatch = useAppDispatch()
+
+    const editProduct = (prod : TProduct)=>{
+        selectProductID(prod),
+        console.log(prod)
+        changeAction("edit")
+    }
+    const deletedProduct = (prod : TProduct)=>{
+        deleteProduct(prod.id as number)
+        changeAction("index")
     }
 
     useEffect(()=>{
-        if(products.length <= 0){
-            fillProducts()
+        if(loading){
+            Appdispatch(fetchProduct())
         }
     }, [products])
+    
   return (
     <>
         <div className="w-full flex items-center justify-between">
@@ -64,14 +74,12 @@ export default function ProductIndex({changeAction} : {changeAction : (name:stri
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{prod.categorie}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{prod.sousCategorie}</td>
                             <td className="px-6 py-4 whitespace-nowrap flex gap-2 text-end text-sm font-medium">
-                                <HiOutlinePencilSquare  className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
-                                <AiOutlineDelete className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <HiOutlinePencilSquare onClick={()=> editProduct(prod)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete onClick={()=> deletedProduct(prod)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
                             </td>
                         </tr>
                     ))
                 }
-                
-
             </tbody>
             </table>
         </div>

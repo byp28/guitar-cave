@@ -15,7 +15,7 @@ export default function Header() {
 
 
   return (
-    <div className="w-full fixed top-0 bg-white/20 left-0 z-30 px-20 py-4  flex flex-col gap-6 justify-center items-center">
+    <div className="w-full top-0 bg-black/90 left-0 z-30 px-20 py-4 text-white  flex flex-col gap-6 justify-center items-center">
         <div className="flex w-full justify-between items-center">
             <div className="flex gap-6 w-1/3 max-lg:hidden">
                 <Link className="font-semibold hover:text-[#FF0022]" to={'/'}>Accueil</Link>

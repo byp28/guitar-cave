@@ -1,17 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { TSousCategorie } from "../utils/guitarCaveApi";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getSousCategorie, type TSousCategorie } from "../utils/guitarCaveApi";
 
+export const fetchSubCategorie = createAsyncThunk(
+  "users/fetchSubCategorie",
+  async () => {
+    const response = await getSousCategorie();
+    return response.data;
+  }
+);
 
 export type TInitialCategorie = {
     data : {
-        sousCategories : Array<TSousCategorie>
+        sousCategories : Array<TSousCategorie>,
+        loadingSubCategorie : boolean
     }
     
 }
 
 const initialState : TInitialCategorie = {
     data : {
-        sousCategories : []
+        sousCategories : [],
+        loadingSubCategorie : true
     }
 }
 
@@ -21,8 +30,22 @@ export const sousCategorieSlice = createSlice({
     reducers : {
         fillSousCategorie : (state, action) =>{
             state.data.sousCategories = action.payload
-            console.log(action.payload , "lk")
         }
+    },
+    extraReducers : (builder)=>{
+        builder
+            .addCase(fetchSubCategorie.pending, (state)=>{
+                state.data.loadingSubCategorie = true
+                console.log(state.data.loadingSubCategorie)
+            })
+            .addCase(fetchSubCategorie.fulfilled, (state, action)=>{
+                state.data.loadingSubCategorie = false
+                state.data.sousCategories = action.payload
+                console.log(state.data.sousCategories)
+            })
+            .addCase(fetchSubCategorie.rejected, (state)=>{
+                state.data.loadingSubCategorie = false
+            })
     }
 })
 

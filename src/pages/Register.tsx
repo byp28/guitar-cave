@@ -1,9 +1,12 @@
 import {  useEffect, useState } from "react"
 import { checkLengthPassword, checkName, checkPassword } from "../features/CheckFormValue";
+import { createUser, type TUser } from "../utils/guitarCaveApi";
+import Loading from "../components/Loading";
 
 
 export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
 
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState({
     pseudo : "",
     email : "",
@@ -11,50 +14,85 @@ export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolea
     cmdp : "",
   })
 
-  const handleSubmit = (e : React.FormEvent)=>{
-    e.preventDefault();
-    const formDataObj = new FormData(e.currentTarget as HTMLFormElement);
-    const newUser = {
-      nom : formDataObj.get("pseudo") as string,
-      email : formDataObj.get("email") as string,
-      password : formDataObj.get("password") as string,
-      cmdp : formDataObj.get("cmd") as string,
+  const handleSubmit = async (e : React.FormEvent)=>{
+      e.preventDefault();
+      const formDataObj = new FormData(e.currentTarget as HTMLFormElement);
+      const newUser : TUser = {
+        nom : formDataObj.get("pseudo") as string,
+        email : formDataObj.get("email") as string,
+        password : formDataObj.get("password") as string,
+      }
+
+
+      if(!checkName(newUser.nom)?.check){
+        setError({...error,
+          pseudo : checkName(newUser.nom)?.error as string
+        })
+        return
+      }else{
+        setError({...error,
+          pseudo : ""
+        })
+      }
+
+
+      if(!checkLengthPassword(newUser.password)?.check){
+        setError({...error,
+          mdp : checkLengthPassword(newUser.password)?.error as string
+        })
+        return
+      }else{
+         setError({...error,
+          mdp : ""
+        })
+      }
+
+      if(!checkPassword(newUser.password, formDataObj.get("cmd") as string)?.check){
+         setError({...error,
+          cmdp : checkPassword(newUser.password, formDataObj.get("cmd") as string)?.error as string
+        })
+        return
+      }else{
+         setError({...error,
+          cmdp : ""
+        })
+      }
+
+      console.log(error)
+      setLoading(true)
+    try{
+      const userCreate = await createUser(newUser);
+              
+      if(userCreate.data.code === 201){
+        setLoading(false)
+      }else{
+        setLoading(false)
+      }
+      
+    }catch(error){
+      console.log(error)
     }
-
-
-    if(!checkName(newUser.nom)?.check){
-      error.pseudo = checkName(newUser.nom)?.error as string
-    }else{
-      error.pseudo = ""
-    }
-
-
-    if(!checkLengthPassword(newUser.password)?.check){
-      error.mdp = checkLengthPassword(newUser.password)?.error as string
-    }else{
-      error.mdp = ""
-    }
-
-    if(!checkPassword(newUser.password, newUser.cmdp)?.check){
-      error.cmdp =  checkPassword(newUser.password, newUser.cmdp)?.error as string
-    }else{
-      error.cmdp = ""
-    }
-
-    console.log(error)
 
   }
 
   
-    useEffect(()=>{
-        toggleNavBar(false)
-      },[])
+  useEffect(()=>{
+    toggleNavBar(false)
+  },[])
 
 
+  
+  if(loading){
+      return (
+        <>
+          <Loading/>
+        </>
+      )
+    }
 
 
   return (
-    <form onSubmit={handleSubmit} className="w-full h-160 p-8 gap-2 flex items-center justify-center flex-col">
+    <form onSubmit={handleSubmit} className="w-full h-screen p-8 gap-2 flex items-center justify-center flex-col">
         <h4 className="py-8 w-md text-5xl">Créer un Compte</h4>
         <span className="w-md font-semibold">Pseudo</span>
         <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="pseudo" type="text" required />

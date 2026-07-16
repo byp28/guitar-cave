@@ -3,12 +3,25 @@ import type { TDescription, TTechDescription } from "../../pages/Admin/Products/
 import MutltiInputWithKey from "./MutltiInputWithKey";
 
 
-export default function MultiTechDescription({addTechDescription, removeTechDescription, updateTechDescription} : 
-    {addTechDescription : (id : number)=> void, 
+export default function MultiTechDescription({addTechDescription, removeTechDescription, updateTechDescription, techDescription} : 
+    {
+    addTechDescription : (id : number)=> void, 
     removeTechDescription : (id : number)=> void,
-    updateTechDescription : (newDesc : TTechDescription)=> void
+    updateTechDescription : (newDesc : TTechDescription)=> void,
+    techDescription? : TTechDescription[]
     }) {
-    const [components, setComponents] = useState([0]);
+    
+    
+    const extratID = ()=>{
+        const newID : number[] = []
+        console.log(techDescription, "th")
+        techDescription?.map((desc)=>{
+            newID.push(desc.id)
+        })
+        return newID
+    }  
+    
+    const [components, setComponents] = useState(techDescription ? extratID() : [0]);
 
     const addComponent = () => {
         const newID = Date.now()
@@ -40,6 +53,7 @@ export default function MultiTechDescription({addTechDescription, removeTechDesc
                 key={id}
                 updateComponent = {updateComponent}
                 id={id}
+                BaseValue={techDescription ? techDescription[id] : undefined}
                 onDelete={() => removeComponent(id)}
             />
         ))}

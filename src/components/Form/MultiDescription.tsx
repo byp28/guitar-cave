@@ -1,14 +1,36 @@
 import { useState } from "react";
 import MutltiInput from "./MutltiInput";
 import type { TDescription } from "../../pages/Admin/Products/CreateProduct";
-import { update } from "three/examples/jsm/libs/tween.module.js";
 
-export default function MultiDescription({addDescription, removeDescription, updateDescription} : 
-    {addDescription : (id : number)=> void, 
+
+
+export default function MultiDescription({addDescription, removeDescription, updateDescription,descriptionTab} : 
+    {
+    addDescription : (id : number)=> void, 
     removeDescription : (id : number)=> void,
-    updateDescription : (newDesc : TDescription)=> void
+    updateDescription : (newDesc : TDescription)=> void,
+    descriptionTab? : TDescription[] 
     }) {
-    const [components, setComponents] = useState([0]);
+
+    const extratID = ()=>{
+        const newID : number[] = []
+        descriptionTab?.map((desc)=>{
+            newID.push(desc.id)
+        })
+        return newID
+    }    
+
+    const getBaseValue = (id:number)=>{
+        if(descriptionTab){
+            if(descriptionTab[id]){
+                return descriptionTab[id].value
+            }
+            return ""
+        }
+        return ""
+    }
+
+    const [components, setComponents] = useState(descriptionTab ? extratID() : [0]);
 
     const addComponent = () => {
         const newID = Date.now()
@@ -32,6 +54,7 @@ export default function MultiDescription({addDescription, removeDescription, upd
         updateDescription(newDesc)
     }
 
+    console.log(components,"mil")
   return (
     <div className="flex flex-col gap-2">
         {components.map((id) => (
@@ -39,6 +62,7 @@ export default function MultiDescription({addDescription, removeDescription, upd
                 key={id}
                 updateComponent = {updateComponent}
                 id={id}
+                baseValue={getBaseValue(id)}
                 onDelete={() => removeComponent(id)}
             />
         ))}

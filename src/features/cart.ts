@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getProducts } from "../utils/guitarCaveApi";
 
 export type TCart = {
     id : number;
@@ -10,16 +11,22 @@ export type TCart = {
 
 export type TInitialCart = {
     data : {
-        cart : Array<TCart>
+        cart : Array<TCart>,
+        loading : boolean
     }
     
 }
 
 const initialState : TInitialCart = {
     data : {
-        cart : []
+        cart : [],
+        loading : true
     }
 }
+
+
+
+
 
 export const cartSlice = createSlice({
     name : "cart",
@@ -55,7 +62,7 @@ export const cartSlice = createSlice({
                 return state
             }
         }
-    }
+    },
 })
 
 export const {addProductToCart, fillCart, removeProductToCart, updateProductToCart} = cartSlice.actions;

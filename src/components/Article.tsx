@@ -24,7 +24,7 @@ export default function Article({prod}: {prod : TCart}) {
   return (
     <div className="w-full flex gap-4 border-t-2 border-t-gray-200">
         <div className="w-25 h-30 flex justify-center items-center">
-            <img src={`./assets/img/${prod.img}`}className="h-full" alt="j" />
+            <img src={`${import.meta.env.VITE_API_ADRESS}/img/product/${prod?.img}`} className="h-full" alt={prod.name} />
         </div>
         <div className="w-full flex flex-col gap-6 py-2">
             <span className="text-lg w-full font-semibold flex justify-between items-center">

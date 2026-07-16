@@ -1,27 +1,59 @@
-import Card from "../../../components/Card";
-import { createProduct, type TCategorie, type TProduct, type TSousCategorie } from "../../../utils/guitarCaveApi";
-import { useState } from "react";
+import { createProduct, updateProduct, type TCategorie, type TProduct, type TSousCategorie } from "../../../utils/guitarCaveApi";
+import { useEffect, useState } from "react";
 import CategorieSelecteur from "../../../components/Form/CategorieSelecteur";
 import SousCategorieSelecteur from "../../../components/Form/SousCategorieSelecteur";
 import MultiDescription from "../../../components/Form/MultiDescription";
 import MultiTechDescription from "../../../components/Form/MultiTechDescription";
 import type { TDescription, TTechDescription } from "./CreateProduct";
+import { useSelector } from "react-redux";
+import type { TReducer } from "../../../Store";
+import CardExample from "../../../components/Form/CardExample";
 
 
-export default function EditProduct({changeAction} : {changeAction : (name:string)=> void}) {
+export default function EditProduct({changeAction,oldProduct} : {changeAction : (name:string)=> void, oldProduct : TProduct}) {
 
-    const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(null)
-    const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(null)
-    const [description, setDescription] = useState<TDescription[]>([{
-        id : 0,
-        value : ""
-    }])
+    const {categories} = useSelector((state:TReducer)=> state.categorie.data)
+    const {sousCategories} = useSelector((state:TReducer)=> state.sousCategorie.data)
+    const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(
+        categories[categories.findIndex((element)=> element.designation === oldProduct.categorie)] ?? null
+    )
+    const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(
+        sousCategories[sousCategories.findIndex((element)=> element.designation === oldProduct.sousCategorie)] ?? null
+    )
 
-    const [techDescription, setTechDescription] = useState<TTechDescription[]>([{
-        id : 0,
-        key : "",
-        value : ""
-    }])
+    const fillDescription = ()=>{
+        const newTab = oldProduct.description.split(";")
+        const newDescription : TDescription[] = []
+        newTab.map((desc,key)=>{
+            newDescription.push({
+                id : key,
+                value : desc
+            })
+        })
+        newDescription.pop()
+        return newDescription
+    }
+
+    const fillTechDescription = ()=>{
+        const newTab = oldProduct.description_technique.split(";")
+        newTab.pop()
+        const newTechDescription : TTechDescription[] = []
+        newTab.map((desc,key)=>{
+            let valueDesc  = desc.split(":")
+            newTechDescription.push({
+                id : key,
+                key : valueDesc[0],
+                value : valueDesc[1]
+            })
+        })
+
+
+        return newTechDescription
+    }
+
+    const [description, setDescription] = useState<TDescription[]>(fillDescription())
+
+    const [techDescription, setTechDescription] = useState<TTechDescription[]>(fillTechDescription())
 
 
     const addDescription = (id : number)=>{
@@ -30,6 +62,9 @@ export default function EditProduct({changeAction} : {changeAction : (name:strin
             {id : id, value : ""}
         ])
     }
+
+
+
 
     const removeDescription = (id : number)=>{
         const newDescription  = description.filter((desc)=> desc.id !== id)
@@ -91,16 +126,14 @@ export default function EditProduct({changeAction} : {changeAction : (name:strin
         nom : formData.get("name") as string,
         price : parseFloat(formData.get("price") as string), 
         description : descriptionString(),
-        Techdescription : techDescriptionString(),
+        description_technique : techDescriptionString(),
         id_categorie : categorieSelected?.id as number,
         id_sous_categorie : sousCategorieSelected?.id as number,
         imgFile : formData.get("imgFile") as File,
-        image : "none",
+        image : oldProduct.image,
       }
-    
-      console.log(newProduct)
       try{
-        const productCreate = await createProduct(newProduct);
+        const productCreate = await updateProduct(newProduct,oldProduct.id as number);
             
         if(productCreate.data.code === 201){
           changeAction("index")
@@ -110,7 +143,8 @@ export default function EditProduct({changeAction} : {changeAction : (name:strin
       }catch(error){
         console.log(error)
       }
-      }
+    }
+
    
 
   return (
@@ -120,11 +154,11 @@ export default function EditProduct({changeAction} : {changeAction : (name:strin
           <div className="flex flex-col gap-3">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Nom</span>
-                  <input type="text" name="name" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
+                  <input type="text" name="name" defaultValue={oldProduct.nom} className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Prix</span>
-                  <input name="price" type="number" className="w-40 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
+                  <input name="price" type="number" defaultValue={oldProduct.price} className="w-40 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
               </span>
             <CategorieSelecteur categorieSelected={categorieSelected} setCategorieSelected={setCategorieSelected}/>
             <SousCategorieSelecteur sousCategorieSelected={sousCategorieSelected} setSousCategorieSelected={setSousCategorieSelected} filter={categorieSelected?.designation ?? null} />
@@ -134,17 +168,17 @@ export default function EditProduct({changeAction} : {changeAction : (name:strin
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Description</span>
-                    <MultiDescription addDescription={addDescription} updateDescription={updateDescription} removeDescription={removeDescription}/>
+                    <MultiDescription addDescription={addDescription} descriptionTab={description} updateDescription={updateDescription} removeDescription={removeDescription}/>
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Description technique</span>
-                  <MultiTechDescription addTechDescription={addTechDescription}  removeTechDescription={removeTechDescription} updateTechDescription={updateTechDescription}/>
+                  <MultiTechDescription addTechDescription={addTechDescription}  removeTechDescription={removeTechDescription} updateTechDescription={updateTechDescription} techDescription={techDescription}/>
               </span>
               <button className="w-30 text-lg py-3 cursor-pointer bg-[#B91372] rounded-lg hover:text-[#B91372] hover:bg-white hover:border-2 hover:border-[#B91372] text-white font-medium flex items-center justify-center">
                 Valider
               </button>
           </div>
-          <Card/>
+          <CardExample product={oldProduct}/>
         </form>
     </div>
   )

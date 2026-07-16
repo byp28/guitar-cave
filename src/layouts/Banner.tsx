@@ -33,13 +33,12 @@ export default function Banner() {
             <IoIosArrowForward onClick={()=>toggleImage(1)} className="w-15 h-15 p-2 cursor-pointer" />
         </div>
         <div className="w-full flex items-center justify-center absolute bottom-0 pb-4 z-2">
-            <div className="p-2 bg-gray-300 rounded-xl flex justify-between gap-2 items-center">
+            <div className="p-2 bg-gradient-to-br from-white/[0.08] to-white/[0.02] rounded-xl backdrop-blur-3xl border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.15)] flex justify-between gap-2 items-center">
                 <span onClick={()=>setSliderIndex(1)} className={`bg-gray-50 rounded-full h-3 cursor-pointer ${sliderIndex === 1 ? "w-6" : "w-3"}` }></span>
                 <span onClick={()=>setSliderIndex(2)} className={`bg-gray-50 rounded-full h-3 cursor-pointer ${sliderIndex === 2 ? "w-6" : "w-3"}` }></span>
                 <span onClick={()=>setSliderIndex(3)} className={`bg-gray-50 rounded-full h-3 cursor-pointer ${sliderIndex === 3 ? "w-6" : "w-3"}` }></span>
                 <span onClick={()=>setSliderIndex(4)} className={`bg-gray-50 rounded-full h-3 cursor-pointer ${sliderIndex === 4 ? "w-6" : "w-3"}` }></span>
                 <span onClick={()=>setSliderIndex(5)} className={`bg-gray-50 rounded-full h-3 cursor-pointer ${sliderIndex === 5 ? "w-6" : "w-3"}` }></span>
-
             </div>
         </div>
         <div className={sliderIndex === 1 ? "bg-red-900 w-full h-full absolute z-1 top-0 left-0" : "hidden"}>
