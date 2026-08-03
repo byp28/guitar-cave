@@ -1,10 +1,12 @@
-import Card from "../../../components/Card";
 import { createProduct, type TCategorie, type TProduct, type TSousCategorie } from "../../../utils/guitarCaveApi";
 import { useState } from "react";
 import CategorieSelecteur from "../../../components/Form/CategorieSelecteur";
 import SousCategorieSelecteur from "../../../components/Form/SousCategorieSelecteur";
 import MultiDescription from "../../../components/Form/MultiDescription";
 import MultiTechDescription from "../../../components/Form/MultiTechDescription";
+import ProductCardForm from "../../../components/Form/ProductCardForm";
+import { fetchProduct } from "../../../features/ProductSlice";
+import { useAppDispatch } from "../../../hook";
 
 export type TDescription = {
     id : number,
@@ -20,6 +22,7 @@ export type TTechDescription = {
 export default function CreateProduct({changeAction} : {changeAction : (name:string)=> void}) {
 
     const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(null)
+    const Appdispatch = useAppDispatch()
     const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(null)
     const [description, setDescription] = useState<TDescription[]>([{
         id : 0,
@@ -31,6 +34,15 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
         key : "",
         value : ""
     }])
+    const [nproduct, setNProduct] = useState<TProduct>({
+        nom : "Nouveau produit",
+        price : 0, 
+        description : "",
+        description_technique : "",
+        id_categorie : 0,
+        id_sous_categorie : 0,
+        image : "https://blocks.astratic.com/img/general-img-landscape.png",
+    })
 
 
     const addDescription = (id : number)=>{
@@ -112,6 +124,7 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
         const productCreate = await createProduct(newProduct);
             
         if(productCreate.data.code === 201){
+            Appdispatch(fetchProduct())
           changeAction("index")
         }else{
           //setLoading(false)
@@ -119,7 +132,38 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
       }catch(error){
         console.log(error)
       }
-      }
+    }
+
+    const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const text = e.target.value;
+
+        if (!text) return;
+
+        setNProduct({...nproduct,
+            nom : text
+        })
+    };
+
+    const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const text = e.target.value;
+
+        if (!text) return;
+
+        setNProduct({...nproduct,
+            price : parseInt(text)
+        })
+    };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    setNProduct({...nproduct,
+      image : URL.createObjectURL(file)
+    })
+  };
+
    
 
   return (
@@ -129,17 +173,17 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
           <div className="flex flex-col gap-3">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Nom</span>
-                  <input type="text" name="name" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
+                  <input type="text" onChange={handleChangeName} name="name" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Prix</span>
-                  <input name="price" type="number" className="w-40 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
+                  <input name="price" type="number" onChange={handleChangePrice} className="w-40 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
               </span>
             <CategorieSelecteur categorieSelected={categorieSelected} setCategorieSelected={setCategorieSelected}/>
             <SousCategorieSelecteur sousCategorieSelected={sousCategorieSelected} setSousCategorieSelected={setSousCategorieSelected} filter={categorieSelected?.designation ?? null} />
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Image</span>
-                  <input type="file" name="imgFile" className="w-70 border-2 px-4 py-2 cursor-pointer border-gray-400 rounded-lg outline-0"/>
+                  <input type="file" accept="image/*"  name="imgFile" onChange={handleChange} className="w-70 border-2 px-4 py-2 cursor-pointer border-gray-400 rounded-lg outline-0"/>
               </span>
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Description</span>
@@ -153,7 +197,7 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
                 Valider
               </button>
           </div>
-          <Card/>
+            <ProductCardForm product={nproduct}/>
         </form>
     </div>
   )

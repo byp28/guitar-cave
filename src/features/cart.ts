@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "../utils/guitarCaveApi";
+import {  createSlice } from "@reduxjs/toolkit";
+
 
 export type TCart = {
     id : number;
@@ -56,7 +56,7 @@ export const cartSlice = createSlice({
             }
             
         },
-        fillCart : (state, action) =>{
+        fillCart : (state, _action) =>{
             if(localStorage.getItem("cart")){
                 state.data.cart = JSON.parse(localStorage.getItem("cart") as string) as Array<TCart>
                 return state

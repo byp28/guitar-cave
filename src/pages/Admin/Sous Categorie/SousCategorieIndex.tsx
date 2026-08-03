@@ -5,22 +5,22 @@ import { deleteSousCategorie, getSousCategorie, type TSousCategorie } from "../.
 import { useEffect, useState } from "react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../../hook";
+import type { TReducer } from "../../../Store";
+import { fetchSubCategorie } from "../../../features/SousCategorieSlice";
 
 export default function SousCategorieIndex({changeAction, selectCSousCategorie} : {changeAction : (name:string)=> void, selectCSousCategorie : (n:number,c:TSousCategorie)=> void,}) {
   
-    const [sousCategories, setSousCategories] = useState<TSousCategorie[]>([])
+    const {sousCategories, loadingSubCategorie} = useSelector((state:TReducer)=> state.sousCategorie.data)
+    const Appdispatch = useAppDispatch()
 
-    const fillSousCategories = async ()=>{
-        const sousCategorieData = await getSousCategorie()
-        console.log(sousCategorieData.data)
-        setSousCategories(sousCategorieData.data)
-    }
 
     const deleteOneCategorie = async (id:number)=>{
         const categorieResponse = await deleteSousCategorie(id)
 
         if(categorieResponse.data.code === 202){
-            fillSousCategories()
+            Appdispatch(fetchSubCategorie())
         }
     }
 
@@ -30,11 +30,13 @@ export default function SousCategorieIndex({changeAction, selectCSousCategorie} 
     }
 
     useEffect(()=>{
-        if(sousCategories.length<=0){
-            fillSousCategories()
-            
+        if(loadingSubCategorie){
+            Appdispatch(fetchSubCategorie())
         }
-        console.log(sousCategories)
+        
+        if(!loadingSubCategorie){
+            window.scrollTo(0, 0);
+        }
     },[sousCategories])
   
 return (

@@ -2,7 +2,6 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { MdAddShoppingCart, MdFavoriteBorder } from "react-icons/md";
 import { ImStarEmpty, ImStarFull } from "react-icons/im";
 import { useEffect, useState } from "react";
-import Comment from "../components/Comment";
 import { addProductToCart, removeProductToCart, updateProductToCart, type TCart } from "../features/cart";
 import { useDispatch, useSelector } from "react-redux";
 import type { TReducer } from "../Store";
@@ -16,6 +15,7 @@ import { fetchProduct } from "../features/ProductSlice";
 import { fetchSubCategorie } from "../features/SousCategorieSlice";
 import Page404 from "./Page404";
 import type { TDescription, TTechDescription } from "./Admin/Products/CreateProduct";
+import AvisSection from "../components/AvisSection";
 
 
 export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
@@ -33,9 +33,7 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
     const AppDispatch = useAppDispatch()
 
     const filterProductBySubCategorie = ()=>{
-        console.log(productSubCat?.designation,"cal")
         const newProducts = products.filter((prod)=> prod.sousCategorie === productSubCat?.designation)
-        console.log(newProducts,'n')
         return newProducts
     }
 
@@ -118,12 +116,15 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
         dispatch(addProductToCart(test))
     }
 
-    const updateState = ()=>{
+    const updateStateProduct = ()=>{
         const rproduct = products.find((prod)=> prod.id === parseInt(params.id as string))
-        const rsub = sousCategories.find((sub)=> sub.designation === product?.sousCategorie)
         setProduct(rproduct as TProduct)
+        
+    }
+
+    const updateStateSub = ()=>{
+        const rsub = sousCategories.find((sub)=> sub.designation === product?.sousCategorie)
         setProductSubCat(rsub as TSousCategorie)
-        console.log(productSubCat,'sf')
     }
 
     useEffect(()=>{
@@ -133,9 +134,9 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
             AppDispatch(fetchProduct())
             AppDispatch(fetchSubCategorie())
         }
-        console.log(loading)
         if(!loadingSubCategorie || !loading){
-            updateState()
+            updateStateProduct()
+            updateStateSub()
         }
         if(ProductInCart()){
             let prod = cart.find((c)=> c.id===2)
@@ -160,16 +161,10 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
     }
 
   return (
-    <div className="w-full px-25  py-8 pt-45 flex flex-col gap-15">
-        <div className="w-full flex max-lg:flex-col max-lg:justify-center max-lg:items-center justify-around max-lg:gap-4">
+    <div className="w-full px-15  py-8 pt-20 flex flex-col gap-15">
+        <div className="w-full flex max-lg:flex-col max-lg:justify-center max-lg:items-center justify-around max-lg:gap-8">
             <div className="w-1/2 max-lg:w-full max-lg:justify-center max-lg:items-center max-lg:flex-col flex gap-3">
-                <div className="w-1/8 max-lg:w-full flex max-lg:flex-row flex-col gap-4 max-lg:items-center max-lg:justify-center">
-                    <div className="w-15 h-25  bg-gray-200"></div>
-                    <div className="w-15 h-25  bg-gray-200"></div>
-                    <div className="w-15 h-25  bg-gray-200"></div>
-                    <div className="w-15 h-25  bg-gray-200"></div>
-                </div>
-                <div className="w-100 h-140">
+                <div className="w-full h-auto max-lg:h-auto">
                     <img src={`${import.meta.env.VITE_API_ADRESS}/img/product/${product?.image}`} className="h-full" alt={product?.nom} />
                 </div>
             </div>
@@ -202,7 +197,7 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
                 </div>
             </div>
         </div>
-        <div className="flex flex-col gap-5 text-justify font-medium">
+        <div className="flex flex-col gap-6 text-justify font-medium">
             <h4 className="text-4xl font-semibold">Détails</h4>
             <ul className="list-disc flex flex-col gap-2 pr-20">
                 {
@@ -212,13 +207,9 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
                 }
             </ul>
             <div className="flex h-80 flex-wrap flex-col w-full">
-                <div className="py-4 flex justify-between items-center border-y-2 border-y-black w-100">
-                    <span className="font-bold">Micro</span>
-                    <span>HHS</span>
-                </div>
                 {
                     fillTechDescription().map((desc,key)=>(
-                        <div key={key} className="py-4 flex justify-between items-center border-t-2 border-t-black w-100">
+                        <div key={key} className={`py-4 flex justify-between items-center border-t-2 ${key === fillTechDescription().length - 1 ? "" : "border-t-black"}  w-100`}>
                             <span className="font-bold">{desc.key}</span>
                             <span>{desc.value}</span>
                         </div>
@@ -226,8 +217,8 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
                 }
             </div>
         </div>
-        <section className="flex flex-col gap-8 text-justify font-medium">
-            <h4 className="text-4xl font-semibold">Laissez une évalution</h4>
+        <section className="flex flex-col gap-15 text-justify font-medium">
+            <h4 className="text-4xl text-left font-semibold">Laissez une évalution</h4>
             <div className="w-full flex items-center justify-center gap-4">
                 <span onMouseOver={()=>setStars(1)} onMouseOut={()=>setStars(0)} className="relative max-lg:w-10 max-lg:h-10 w-20 h-20 cursor-pointer">
                     <ImStarEmpty className={stars>=1 ? "hidden" : "absolute z-2 top-0 left-0 w-full h-full hover:z-1 bg-white"} />
@@ -251,14 +242,7 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
                 </span>    
             </div>
             <div className="w-full flex items-center justify-center text-4xl font-bold">{stars} sur 5</div>
-            <h4 className="text-4xl font-semibold">Laissez un commentaire</h4>
-            <textarea name="comment" id="comment" className="w-full h-40 border border-gray-600 rounded-lg p-2 outline-0" placeholder="Laissez un commentaire"></textarea>
-            <button className="bg-black text-white flex justify-center items-center w-30 h-10 rounded-md cursor-pointer hover:border hover:border-black hover:text-black hover:bg-white">Poster</button>
-            <h4 className="text-4xl font-semibold">Commentaire</h4>
-            <div className="w-full flex flex-col gap-4 bg-gray-100">
-                <Comment/>
-                <Comment/>
-            </div>
+            <AvisSection id={product.id as number}/>
         </section>
         {
             productSubCat && <SubCategorieSection products={filterProductBySubCategorie()} subCategorie={productSubCat as TSousCategorie}/>

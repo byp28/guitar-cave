@@ -35,7 +35,6 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
         
         if(!loadingCategorie){
             window.scrollTo(0, 0);
-      
         }
     },[categories])
 

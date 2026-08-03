@@ -1,11 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getSousCategorie, } from "../utils/guitarCaveApi";
+import {  passport } from "../utils/guitarCaveApi";
+import { encrypt } from "../utils/hash";
 
-export const fetchSubCategorie = createAsyncThunk(
-  "users/fetchSubCategorie",
+
+export const verifieConnection = createAsyncThunk(
+  "users/auth/passport",
   async () => {
-    const response = await getSousCategorie();
-    return response.data;
+    try{
+        const response = await passport();
+        return response.data;
+    }catch(e){
+        console.log(e)
+    }
+    
   }
 );
 
@@ -21,6 +28,7 @@ export type TInitialUserCredentials = {
     data : {
         user : TUserCredentials | undefined,
         connected : boolean
+        message? : string
     }
 }
 
@@ -38,24 +46,30 @@ export const userSlice = createSlice({
         saveCredentials : (state, action) =>{
             state.data.user = action.payload
             state.data.connected = true
-            console.log(state.data)
+            localStorage.setItem("token", JSON.stringify(state.data.user?.token as string))
+            console.log(state.data.user?.token)
         }
     },
-    // extraReducers : (builder)=>{
-    //     builder
-    //         .addCase(fetchSubCategorie.pending, (state)=>{
-    //             state.data.loadingSubCategorie = true
-    //             console.log(state.data.loadingSubCategorie)
-    //         })
-    //         .addCase(fetchSubCategorie.fulfilled, (state, action)=>{
-    //             state.data.loadingSubCategorie = false
-    //             state.data.sousCategories = action.payload
-    //             console.log(state.data.sousCategories)
-    //         })
-    //         .addCase(fetchSubCategorie.rejected, (state)=>{
-    //             state.data.loadingSubCategorie = false
-    //         })
-    // }
+    extraReducers : (builder)=>{
+        builder
+            .addCase(verifieConnection.pending, (state)=>{
+                //state.data.loadingSubCategorie = true
+            })
+            .addCase(verifieConnection.fulfilled, (state, action)=>{
+                if(action.payload.user){
+                    console.log(action.payload.user)
+                    state.data.connected = true
+                    state.data.user = action.payload.user
+                }else{
+                    console.log(action.payload.message,"ful")
+                    localStorage.removeItem("token")
+                }
+            })
+            .addCase(verifieConnection.rejected, (state)=>{
+                //state.data.loadingSubCategorie = false
+                console.log(state.data.message,"rej")
+            })
+    }
 })
 
 export const {saveCredentials} = userSlice.actions;

@@ -7,6 +7,52 @@ export type TCategorie = {
     imgFile? : File
 }
 
+export type TAvisPayloads = {
+  data : string,
+  id_user : number,
+  id_product : number,
+}
+
+export type TCommande = {
+  id : number,
+  date_cmd : string,
+  status : string,
+  CommandeNumber : string
+}
+
+export type TProductInCommande = {
+  id : number,
+  quantity : number,
+  productID : number,
+  nom : string,
+  price : number,
+  image : string
+}
+
+export type TCompleteCommande = {
+  commande : TCommande,
+  product : TProductInCommande[]
+}
+
+export type TCommandePayloads = {
+  user_id : number,
+}
+
+export type TCommandeProductPayloads = {
+  product_id : number,
+  qte : number
+}
+
+
+export type TComment = {
+  id: number,
+  contenu: string,
+  likes: number,
+  dislikes: number,
+  nom: string,
+  userId: number
+}
+
 export type TUser = {
   id? : number,
   nom : string,
@@ -34,6 +80,13 @@ export type TProduct = {
   imgFile? : File
 }
 
+export type TProductEconomy = {
+  id : number,
+  nom : string,
+  categorie : string,
+  sousCategorie : string,
+}
+
 export type TSousCategorie = {
     id? : number,
     designation : string,
@@ -44,7 +97,6 @@ export type TSousCategorie = {
 }
 
 const api = axios.create({
-  // URL de base de l'API Laravel (à ajuster selon votre configuration)
   baseURL: `${import.meta.env.VITE_API_ADRESS}/api`,
 
   // Headers par défaut
@@ -59,14 +111,33 @@ const api = axios.create({
   timeout: 70000,
 });
 
+api.interceptors.request.use(
+  (config) => {
+    if (localStorage.getItem("token")) {
+      const token = JSON.parse(localStorage.getItem("token") as string);
+      console.log(token)
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 
 export const getUser = () => api.get("/product");
 export const createUser = (newUser: TUser) => api.post("/user", newUser);
 export const updateUser = (newProduct: TProduct, id:number) => api.post("/product/"+id, newProduct);
 export const deleteUSer = (id:number) => api.post(`/product/${id}/delete`);
 export const loginUser = (user: TLogin) => api.post("/auth/login", user);
+export const passport = () => api.post("/auth/passport");
 
 export const getProducts = () => api.get("/product");
+export const getProductsByName = (name: string) => api.get("/product/"+name);
 export const createProduct = (newProduct: TProduct) => api.post("/product", newProduct);
 export const updateProduct = (newProduct: TProduct, id:number) => api.post("/product/"+id, newProduct);
 export const deleteProduct = (id:number) => api.post(`/product/${id}/delete`);
@@ -81,3 +152,14 @@ export const getSousCategorie = () => api.get("/subCategorie");
 export const deleteSousCategorie = (id:number) => api.post(`/subCategorie/${id}/delete`);
 export const createSousCategorie = (newSubCategorie: TSousCategorie) => api.post("/subCategorie", newSubCategorie);
 export const updateSousCategorie = (newSubCategorie: TSousCategorie, id:number) => api.post("/subCategorie/"+id, newSubCategorie);
+
+export const getComment = () => api.get("/avis");
+export const getCommentByProduct = (id:number) => api.post("/avis/product/"+id);
+export const createComment = (newComment: TAvisPayloads) => api.post("/avis", newComment);
+export const updateComment = (newComment: {data:string}, id:number) => api.post("/avis/"+id, newComment);
+export const deleteComment = (id:number) => api.post(`/avis/${id}/delete`);
+
+export const getCommande = () => api.get("/commande");
+export const getCommandeByUserId = (id : number) => api.get("/commande/"+id+"/user");
+export const createCommande = (newCommande: TCommandePayloads) => api.post("/commande", newCommande);
+export const addProductInCommande = (newProduct: TCommandeProductPayloads, id:number) => api.post("/commande/"+id+"/add", newProduct);
