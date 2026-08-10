@@ -47,6 +47,10 @@ export const cartSlice = createSlice({
             state.data.cart.splice(indexCart,1)
             localStorage.setItem("cart", JSON.stringify(state.data.cart))
         },
+        cleanProductToCart : (state, _action)=>{
+            state.data.cart = []
+            localStorage.setItem("cart", JSON.stringify(state.data.cart))
+        },
         updateProductToCart : (state, action)=>{
             const product = state.data.cart.find(p => p.id === action.payload.id as number)
             if(product){
@@ -65,5 +69,5 @@ export const cartSlice = createSlice({
     },
 })
 
-export const {addProductToCart, fillCart, removeProductToCart, updateProductToCart} = cartSlice.actions;
+export const {addProductToCart, fillCart, cleanProductToCart, removeProductToCart, updateProductToCart} = cartSlice.actions;
 export default cartSlice.reducer;

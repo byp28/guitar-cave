@@ -2,11 +2,13 @@ import {  useEffect, useState } from "react"
 import { checkLengthPassword, checkName, checkPassword } from "../features/CheckFormValue";
 import { createUser, type TUser } from "../utils/guitarCaveApi";
 import Loading from "../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
 
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const [error, setError] = useState({
     pseudo : "",
     email : "",
@@ -65,6 +67,7 @@ export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolea
               
       if(userCreate.data.code === 201){
         setLoading(false)
+        navigate("/")
       }else{
         setLoading(false)
       }

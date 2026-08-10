@@ -18,6 +18,7 @@ export const verifieConnection = createAsyncThunk(
 
 export type TUserCredentials = {
     id : number,
+    addressId? : number, 
     nom : string,
     email : string,
     type : string,

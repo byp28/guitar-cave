@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 import HomeClient from './Client/HomeClient'
 import ClientCommande from './Client/ClientCommande'
+import ClientComment from './Client/ClientComment'
+import ClientAddress from './Client/Clientaddress'
 
 export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
   const [Manage, setManage] = useState("Home")
-  const dispatch = useDispatch()
 
 
   const changePanel = (name : string)=>{
@@ -36,10 +36,17 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
                     }
                     
                 </span>
-                <span className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
+                <span onClick={()=>setManage("Comment")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
                     Mes Avis
                     {
-                        Manage === "avis" && <span className='w-1 h-4 bg-black'></span>
+                        Manage === "Comment" && <span className='w-1 h-4 bg-black'></span>
+                    }
+                    
+                </span>
+                <span onClick={()=>setManage("Address")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
+                    Modifier mon adresse
+                    {
+                        Manage === "Address" && <span className='w-1 h-4 bg-black'></span>
                     }
                     
                 </span>
@@ -55,6 +62,8 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
             </div>
             {Manage === "Home" && <HomeClient/>}
             {Manage === "Commande" && <ClientCommande/>}
+            {Manage === "Comment" && <ClientComment/>}
+            {Manage === "Address" && <ClientAddress/>}
         </section>
         
         {/* {Manage === "Product" && <ProductManage/>}

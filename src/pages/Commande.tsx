@@ -1,18 +1,22 @@
-import { FaArrowRight, FaStripe } from "react-icons/fa";
-import Article from "../components/Article";
-import {  useSelector } from "react-redux";
+import {  useDispatch, useSelector } from "react-redux";
 import type { TReducer } from "../Store";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProductCommandeCard from "../components/ProductCommandeCard";
-import { addProductInCommande, createCommande, type TCommandePayloads, type TCommandeProductPayloads } from "../utils/guitarCaveApi";
+import { addProductInCommande, createCommande, getAddressByUserId, type TAddress, type TCommandePayloads, type TCommandeProductPayloads } from "../utils/guitarCaveApi";
+import { cleanProductToCart } from "../features/cart";
+import Loading from "../components/Loading";
 
 export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
     
     const [total, setTotal] = useState(0)
     const {cart} = useSelector((state: TReducer) => state.cart.data)
     const {user} = useSelector((state: TReducer) => state.user.data)
+    const [address, setAdress] = useState<TAddress|null>(null)
+    const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch()
     const navigation = useNavigate()
+
     const calculatTotal = ()=>{
         let t = 0
         cart.map((p)=>{
@@ -28,11 +32,21 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
 
             if(newCommande.status === 201){
                 addMyProductInCommande(newCommande.data.id_cmd)
+                dispatch(cleanProductToCart(""))
                 navigation('/')
             }
 
         }catch(e){
             console.log(e)
+        }
+    }
+
+    const fetchAdress = async (id:number)=>{
+        const fAddress = await getAddressByUserId(id)
+    
+        if(fAddress.status === 200){
+            setAdress(fAddress.data as TAddress)
+            setLoading(false)
         }
     }
 
@@ -51,7 +65,15 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
     useEffect(()=>{
         toggleNavBar(true)
         setTotal(calculatTotal())
-    },[cart])
+        if(user?.addressId){
+            fetchAdress(user.addressId)
+        }
+    },[])
+
+
+    if(loading){
+        return <Loading/>
+    }
 
   return (
     <div className="w-full px-10 py-15 min-h-screen flex flex-col gap-12">
@@ -72,7 +94,7 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
                     <Link to={'/cart'} className="font-semibold text-2xl w-full text-center py-2 cursor-pointer hover:text-blue-500">Modifier</Link>
                     <span className="text-4xl py-5 font-semibold text-center w-full border-b-3 border-b-gray-200">Lieu de livraison</span>
                     <p className="w-full text-center text-lg font-semibold">
-                        27 rue des Lilas, Appartement 4B, 75011 Paris, France
+                        {address?.number} rue {address?.rue}, {address?.complement}, {address?.code} {address?.ville}, {address?.country}
                     </p>
                     <Link to={'/cart'} className="font-semibold text-2xl w-full text-center py-2 cursor-pointer hover:text-blue-500">Modifier</Link>
                 </div>

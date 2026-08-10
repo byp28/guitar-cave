@@ -20,6 +20,7 @@ import type { TReducer } from './Store'
 import { verifieConnection } from './features/UserSlice'
 import ClientAdmin from './pages/ClientAdmin'
 import Commande from './pages/Commande'
+import AddAdress from './pages/AddAdress'
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [hiddeHeader, setHiddeHeader] = useState(false)
 
-  const {user,connected} = useSelector((state : TReducer) => state.user.data)
+  const {user} = useSelector((state : TReducer) => state.user.data)
   const Appdispatch = useAppDispatch()
   const toggleNavBar = (toggle:boolean)=>{
     setHiddeHeader(toggle)
@@ -69,6 +70,9 @@ function App() {
           user?.type === "Client" && <Route path='/commande' element={<Commande toggleNavBar={toggleNavBar} />}/>
         }
         <Route path='/product/:id' element={<Produit toggleNavBar={toggleNavBar} />} />
+        {
+          user?.type === "Client" &&  <Route path='/address/create' element={<AddAdress toggleNavBar={toggleNavBar} />} />
+        }
         <Route path='/search' element={<Search toggleNavBar={toggleNavBar} />} />
       </Routes>
       {hiddeHeader ? <Footer/> : null}

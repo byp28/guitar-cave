@@ -13,6 +13,25 @@ export type TAvisPayloads = {
   id_product : number,
 }
 
+export type TAddress = {
+  id : number,
+  code : number,
+  number : number,
+  rue : string,
+  country : string,
+  ville : string,
+  complement : string,
+}
+
+export type TAddressPayloads = {
+  postal : number,
+  number : number,
+  rue : string,
+  country : string,
+  ville : string,
+  complement : string,
+}
+
 export type TCommande = {
   id : number,
   date_cmd : string,
@@ -51,6 +70,18 @@ export type TComment = {
   dislikes: number,
   nom: string,
   userId: number
+}
+
+export type TCommentUser = {
+  id: number,
+  contenu: string,
+  likes: number,
+  dislikes: number,
+  nom: string,
+  userId: number,
+  pname :string,
+  image : string,
+  productId : number
 }
 
 export type TUser = {
@@ -115,7 +146,6 @@ api.interceptors.request.use(
   (config) => {
     if (localStorage.getItem("token")) {
       const token = JSON.parse(localStorage.getItem("token") as string);
-      console.log(token)
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -135,6 +165,9 @@ export const updateUser = (newProduct: TProduct, id:number) => api.post("/produc
 export const deleteUSer = (id:number) => api.post(`/product/${id}/delete`);
 export const loginUser = (user: TLogin) => api.post("/auth/login", user);
 export const passport = () => api.post("/auth/passport");
+export const getAddressByUserId = (id:number) => api.get("/user/"+id+"/adresse");
+export const createAddress = (newAddress: TAddressPayloads,id:number) => api.post("/user/"+id+"/adresse", newAddress);
+export const updateAddress = (newAddress: TAddressPayloads, id:number) => api.post("/user/adresse/"+id, newAddress);
 
 export const getProducts = () => api.get("/product");
 export const getProductsByName = (name: string) => api.get("/product/"+name);
@@ -155,6 +188,7 @@ export const updateSousCategorie = (newSubCategorie: TSousCategorie, id:number) 
 
 export const getComment = () => api.get("/avis");
 export const getCommentByProduct = (id:number) => api.post("/avis/product/"+id);
+export const getCommentByUser = (id:number) => api.post("/avis/user/"+id);
 export const createComment = (newComment: TAvisPayloads) => api.post("/avis", newComment);
 export const updateComment = (newComment: {data:string}, id:number) => api.post("/avis/"+id, newComment);
 export const deleteComment = (id:number) => api.post(`/avis/${id}/delete`);
