@@ -1,5 +1,10 @@
 import axios from "axios";
 
+export type TServerResponse = {
+  message : string,
+  code : number
+}
+
 export type TCategorie = {
     id? : number,
     designation : string,
@@ -92,6 +97,16 @@ export type TUser = {
   type?: string
 }
 
+export type TUserPayloads = {
+  nom : string,
+  email : string,
+}
+
+export type TUserPasswordPayloads = {
+  password : string,
+  newPassword : string,
+}
+
 export type TLogin = {
   email : string,
   password : string,
@@ -161,7 +176,8 @@ api.interceptors.request.use(
 
 export const getUser = () => api.get("/product");
 export const createUser = (newUser: TUser) => api.post("/user", newUser);
-export const updateUser = (newProduct: TProduct, id:number) => api.post("/product/"+id, newProduct);
+export const updateUser = (newUser: TUserPayloads, id:number) => api.post("/user/"+id, newUser);
+export const updateUserPassword = (newUser: TUserPasswordPayloads, id:number) => api.post("/user/"+id+"/password", newUser);
 export const deleteUSer = (id:number) => api.post(`/product/${id}/delete`);
 export const loginUser = (user: TLogin) => api.post("/auth/login", user);
 export const passport = () => api.post("/auth/passport");

@@ -58,14 +58,14 @@ function App() {
         <Route path='/categorie/:id' element={<AllSubCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie/sous-categorie/:id' element={<AllProductBySubCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/register' element={<Register toggleNavBar={toggleNavBar} />} />
+        <Route path='/login' element={<Login toggleNavBar={toggleNavBar} />} />
+        <Route path='/cart' element={<Cart toggleNavBar={toggleNavBar} />} />
         {
           user?.type === "Admin" && <Route path='/admin' element={<Admin toggleNavBar={toggleNavBar} />}/>
         }
         {
           user?.type === "Client" && <Route path='/client-admin' element={<ClientAdmin toggleNavBar={toggleNavBar} />}/>
-        }
-        <Route path='/login' element={<Login toggleNavBar={toggleNavBar} />} />
-        <Route path='/cart' element={<Cart toggleNavBar={toggleNavBar} />} />
+        } 
         {
           user?.type === "Client" && <Route path='/commande' element={<Commande toggleNavBar={toggleNavBar} />}/>
         }
@@ -74,6 +74,7 @@ function App() {
           user?.type === "Client" &&  <Route path='/address/create' element={<AddAdress toggleNavBar={toggleNavBar} />} />
         }
         <Route path='/search' element={<Search toggleNavBar={toggleNavBar} />} />
+        <Route path='*' element={<}
       </Routes>
       {hiddeHeader ? <Footer/> : null}
       

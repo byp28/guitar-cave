@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {  passport } from "../utils/guitarCaveApi";
-import { encrypt } from "../utils/hash";
+//import { encrypt } from "../utils/hash";
 
 
 export const verifieConnection = createAsyncThunk(
@@ -48,21 +48,18 @@ export const userSlice = createSlice({
             state.data.user = action.payload
             state.data.connected = true
             localStorage.setItem("token", JSON.stringify(state.data.user?.token as string))
-            console.log(state.data.user?.token)
         }
     },
     extraReducers : (builder)=>{
         builder
-            .addCase(verifieConnection.pending, (state)=>{
+            .addCase(verifieConnection.pending, (_state)=>{
                 //state.data.loadingSubCategorie = true
             })
             .addCase(verifieConnection.fulfilled, (state, action)=>{
                 if(action.payload.user){
-                    console.log(action.payload.user)
                     state.data.connected = true
                     state.data.user = action.payload.user
                 }else{
-                    console.log(action.payload.message,"ful")
                     localStorage.removeItem("token")
                 }
             })

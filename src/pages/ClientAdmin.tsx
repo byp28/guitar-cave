@@ -3,6 +3,8 @@ import HomeClient from './Client/HomeClient'
 import ClientCommande from './Client/ClientCommande'
 import ClientComment from './Client/ClientComment'
 import ClientAddress from './Client/Clientaddress'
+import ClientInformation from './Client/ClientInformation'
+import ClientPassword from './Client/ClientPassword'
 
 export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
   const [Manage, setManage] = useState("Home")
@@ -50,10 +52,16 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
                     }
                     
                 </span>
-                <span className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
+                <span onClick={()=>setManage("Information")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
                     Modifier mes informations
                     {
-                        Manage === "information" && <span className='w-1 h-4 bg-black'></span>
+                        Manage === "Information" && <span className='w-1 h-4 bg-black'></span>
+                    }      
+                </span>
+                <span onClick={()=>setManage("Password")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
+                    Changer de mot de passe
+                    {
+                        Manage === "Password" && <span className='w-1 h-4 bg-black'></span>
                     }      
                 </span>
                 <span className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
@@ -64,6 +72,8 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
             {Manage === "Commande" && <ClientCommande/>}
             {Manage === "Comment" && <ClientComment/>}
             {Manage === "Address" && <ClientAddress/>}
+            {Manage === "Information" && <ClientInformation/>}
+            {Manage === "Password" && <ClientPassword/>}
         </section>
         
         {/* {Manage === "Product" && <ProductManage/>}
