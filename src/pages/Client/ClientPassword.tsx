@@ -89,8 +89,8 @@ export default function ClientPassword() {
     }
 
   return (
-    <div className='w-4/5 min-h-screen  px-10  flex flex-col gap-10'>
-        <span className="text-5xl font-semibold">Changer de mot de passe</span>
+    <div className='w-4/5 max-lg:w-full max-lg:px-0 max-lg:min-h-auto min-h-screen  px-10  flex flex-col gap-10'>
+        <span className="text-5xl max-lg:text-4xl font-semibold">Changer de mot de passe</span>
         <form onSubmit={handleSubmit}  method="POST"  className="w-full flex flex-col gap-3">
             <span className="w-md font-semibold">Mot de passe actuel</span>
             <div className="w-md py-2 px-4 text-md border-2 border-gray-400 flex items-center gap-4 justify-between rounded-lg">

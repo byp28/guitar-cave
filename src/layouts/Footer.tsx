@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <div className='w-full bg-neutral-800 text-white'>
-      <div className="bg-neutral-800 w-full flex flex-col gap-6 px-40 py-15">
+      <div className="bg-neutral-800 w-full flex flex-col gap-6 px-40 max-lg:px-10 py-15">
         <span className="text-base font-semibold">Ne manquez aucune actualité, inscrivez-vous à notre newsletter</span>
-        <div className="flex gap-8 max-lg:flex-col max-lg:items-center">
+        <div className="flex gap-8 max-lg:flex-col">
           <div className="w-md border max-lg:w-full border-white px-4 py-2">
             <input type="email" className="w-full outline-0" placeholder="Email" />
           </div>

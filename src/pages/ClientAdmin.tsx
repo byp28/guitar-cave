@@ -2,16 +2,22 @@ import { useEffect, useState } from 'react'
 import HomeClient from './Client/HomeClient'
 import ClientCommande from './Client/ClientCommande'
 import ClientComment from './Client/ClientComment'
-import ClientAddress from './Client/Clientaddress'
 import ClientInformation from './Client/ClientInformation'
 import ClientPassword from './Client/ClientPassword'
+import ClientAddress from './Client/ClientAddress'
+import SideMenu from '../components/ClientComposant/SideMenu'
+import { AiOutlineClose } from 'react-icons/ai'
+import { RxHamburgerMenu } from 'react-icons/rx'
+import SideMenuMobile from '../components/ClientComposant/SideMenuMobile'
 
 export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
   const [Manage, setManage] = useState("Home")
+  const [toggleMenuSection , setToggleMenuSection ] = useState(false)
 
 
   const changePanel = (name : string)=>{
     setManage(name)
+    setToggleMenuSection(false)
   }
 
 
@@ -20,54 +26,22 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
   },[])
 
   return (
-    <div className="w-full px-15 py-10">
-        <span className='text-6xl font-semibold mb-10'>Espace client</span>
-        <section className='flex min-h-screen py-15 '>
-            <div className='w-1/5 flex flex-col gap-3'>
-                <span onClick={()=>setManage("Home")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Aperçu
-                    {
-                        Manage === "Home" && <span className='w-1 h-4 bg-black'></span>
-                    }
-                    
-                </span>
-                <span onClick={()=>setManage("Commande")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Mes commandes
-                    {
-                        Manage === "Commande" && <span className='w-1 h-4 bg-black'></span>
-                    }
-                    
-                </span>
-                <span onClick={()=>setManage("Comment")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Mes Avis
-                    {
-                        Manage === "Comment" && <span className='w-1 h-4 bg-black'></span>
-                    }
-                    
-                </span>
-                <span onClick={()=>setManage("Address")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Modifier mon adresse
-                    {
-                        Manage === "Address" && <span className='w-1 h-4 bg-black'></span>
-                    }
-                    
-                </span>
-                <span onClick={()=>setManage("Information")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Modifier mes informations
-                    {
-                        Manage === "Information" && <span className='w-1 h-4 bg-black'></span>
-                    }      
-                </span>
-                <span onClick={()=>setManage("Password")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
-                    Changer de mot de passe
-                    {
-                        Manage === "Password" && <span className='w-1 h-4 bg-black'></span>
-                    }      
-                </span>
-                <span className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
-                    Se déconnecter
-                </span>
+    <div className="w-full px-15 py-10 max-lg:px-5 ">
+        <div className='text-6xl flex w-full justify-between items-center max-lg:text-5xl font-semibold mb-5'>
+            <span>Espace client</span>
+            <div className="hidden max-lg:block relative z-10  translate-y-1">
+                {
+                    toggleMenuSection 
+                    ?
+                        <AiOutlineClose onClick={()=>setToggleMenuSection(false)} className="cursor-pointer" />
+                    :
+                        <RxHamburgerMenu onClick={()=>setToggleMenuSection(true)} className="cursor-pointer" />
+                }          
             </div>
+            <SideMenuMobile toggleMenuSection={toggleMenuSection} Manage={Manage} setManage={changePanel}/>
+        </div>
+        <section className='flex min-h-screen py-15 '>
+            <SideMenu Manage={Manage} setManage={changePanel}/>
             {Manage === "Home" && <HomeClient/>}
             {Manage === "Commande" && <ClientCommande/>}
             {Manage === "Comment" && <ClientComment/>}
@@ -75,7 +49,6 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
             {Manage === "Information" && <ClientInformation/>}
             {Manage === "Password" && <ClientPassword/>}
         </section>
-        
         {/* {Manage === "Product" && <ProductManage/>}
         {Manage === "Categorie" && <CategorieManage/>}
         {Manage === "SousCategorie" && <SousCategorieManage/>} */} 

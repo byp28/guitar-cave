@@ -84,8 +84,8 @@ export default function ClientComment() {
     }
 
   return (
-    <div className='w-4/5 min-h-screen  px-10  flex flex-col gap-10'>
-        <span className="text-5xl font-semibold">Mes Avis</span>
+    <div className='w-4/5 max-lg:w-full max-lg:px-0 min-h-screen  px-10  flex flex-col gap-10'>
+        <span className="text-5xl max-lg:text-4xl font-semibold">Mes Avis</span>
         <div className="w-full flex flex-col gap-14">
             {
                 comments.length === 0 

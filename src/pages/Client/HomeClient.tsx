@@ -51,8 +51,8 @@ export default function HomeClient() {
     }
 
   return (
-    <div className='w-4/5 min-h-screen  px-10 overflow-y-auto flex flex-col gap-10'>
-        <span className="text-5xl font-semibold">Aperçu</span>
+    <div className='w-4/5 max-lg:w-full max-lg:px-0 min-h-screen  px-10 overflow-y-auto flex flex-col gap-10'>
+        <span className="text-5xl max-lg:text-4xl font-semibold">Aperçu</span>
         <div className="flex flex-col w-full justify-start items-start gap-1">
             <span className="text-4xl font-semibold">{user?.nom}</span>
             <span className="text-2xl">{user?.email}</span>

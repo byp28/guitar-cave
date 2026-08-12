@@ -85,7 +85,7 @@ export default function Header() {
     }
 
   return (
-    <div className="w-full relative z-10 px-10 py-4 text-black  flex flex-col gap-6 justify-center items-center">
+    <div className="w-full relative z-20 px-10 max-lg:px-5 py-4 text-black  flex flex-col gap-6 justify-center items-center">
         <div className="flex w-full justify-between items-center">
             <div className="hidden max-lg:block w-1/3">
                 {
@@ -161,7 +161,7 @@ export default function Header() {
 
         </div>
 
-        <section className={toggleSubSection ? "w-full px-10 py-4 min-h-20 border-b-4 border-b-blue-500 absolute z-11 top-34 bg-white" : "hidden"}>
+        <section className={toggleSubSection ? "w-full px-10 py-4 min-h-20 border-b-4 border-b-blue-500 absolute z-21 top-34 bg-white" : "hidden"}>
            <div className={toggleSearchSection ? "w-full px-8 py-4 flex flex-col" : "hidden"}>
                 <span className="text-4xl mb-4 font-semibold">
                     <span>Résultats : </span>

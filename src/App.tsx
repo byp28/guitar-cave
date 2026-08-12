@@ -21,6 +21,7 @@ import { verifieConnection } from './features/UserSlice'
 import ClientAdmin from './pages/ClientAdmin'
 import Commande from './pages/Commande'
 import AddAdress from './pages/AddAdress'
+import NotFound from './pages/NotFound'
 
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
           user?.type === "Client" &&  <Route path='/address/create' element={<AddAdress toggleNavBar={toggleNavBar} />} />
         }
         <Route path='/search' element={<Search toggleNavBar={toggleNavBar} />} />
-        <Route path='*' element={<}
+        <Route path='*' element={<NotFound toggleNavBar={toggleNavBar}/>}/>
       </Routes>
       {hiddeHeader ? <Footer/> : null}
       
