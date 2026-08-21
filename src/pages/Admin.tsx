@@ -55,7 +55,7 @@ export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
   },[categories])
 
   return (
-    <div className="w-full flex h-screen overflow-hidden">
+    <div className="w-full flex h-screen overflow-hidden max-lg:min-h-screen max-lg:flex-col max-lg:overflow-visible">
         <SideMenu change={changePanel}/>
         {Manage === "Product" && <ProductManage/>}
         {Manage === "Categorie" && <CategorieManage/>}

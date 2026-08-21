@@ -76,10 +76,8 @@ export default function Header() {
 
     const typeUser  = ()=>{
         if(user?.type == "Admin"){
-            console.log(user?.type)
             return "Admin"
         }
-        console.log(user?.type)
         return "Client"
 
     }
@@ -95,7 +93,6 @@ export default function Header() {
                     :
                         <RxHamburgerMenu onClick={()=>OpenMenu()} className="w-10 h-10  cursor-pointer" />
                 }
-                
             </div>
             <div className="w-1/3 max-lg:hidden flex gap-6">
                 <Link className="font-semibold hover:text-[#FF0022]" to={'/'}>Service</Link>
@@ -161,8 +158,8 @@ export default function Header() {
 
         </div>
 
-        <section className={toggleSubSection ? "w-full px-10 py-4 min-h-20 border-b-4 border-b-blue-500 absolute z-21 top-34 bg-white" : "hidden"}>
-           <div className={toggleSearchSection ? "w-full px-8 py-4 flex flex-col" : "hidden"}>
+        <section className={toggleSubSection ? "w-full  min-h-20 border-b-4 border-b-blue-500 absolute z-21 top-34 bg-white" : "hidden"}>
+           <div className={toggleSearchSection ? "w-full px-6 py-4 flex flex-col" : "hidden"}>
                 <span className="text-4xl mb-4 font-semibold">
                     <span>Résultats : </span>
                     <span>"{nameProduct}"</span>
@@ -183,8 +180,26 @@ export default function Header() {
                 <Link className="font-semibold " to={'/categorie'}>Catégorie</Link>
                 <Link className="font-semibold " to={'/'}>Service</Link>
                 <Link className="font-semibold " to={'/'}>Contact</Link>
-                <Link className="font-semibold text-blue-500" to={"/login"}>Se connecter</Link>
-                <Link className="font-semibold text-blue-500" to={"/register"}>Créer un compte</Link>
+                {
+                    connected 
+                    ?
+                    <>
+                        {
+                            typeUser() == "Admin" 
+                            ?
+                            <Link className="font-semibold text-blue-500" to={"/admin"}>Administration</Link>
+                            :
+                            <Link className="font-semibold text-blue-500" to={"/client-admin"}>Espace client</Link>
+                        }
+                    </>
+                    :
+                    <>
+                        <Link className="font-semibold text-blue-500" to={"/login"}>Se connecter</Link>
+                        <Link className="font-semibold text-blue-500" to={"/register"}>Créer un compte</Link>
+                    </> 
+                    
+                } 
+                
            </div>
         </section>
 

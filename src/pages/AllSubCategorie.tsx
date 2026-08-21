@@ -47,10 +47,10 @@ export default function AllSubCategorie({toggleNavBar} : {toggleNavBar : (toggle
     }
 
   return (
-    <div className="w-full  flex flex-col pt-45 min-h-screen gap-12">
-        <h2 className="px-20 py-5 font-semibold text-5xl">{categorie?.designation}</h2>
-        <div className="w-full px-20 py-10  flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
-            <div className="w-full max-lg:w-full flex justify-start gap-6 flex-wrap gap-y-8">
+    <div className="w-full  flex flex-col py-10 min-h-screen gap-12">
+        <h2 className="px-10 max-lg:px-5 py-5 font-semibold text-5xl max-lg:text-4xl">{categorie?.designation}</h2>
+        <div className="w-full px-10 max-lg:px-5 py-10  flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
+            <div className="w-full max-lg:w-full flex justify-start max-lg:justify-center gap-6 flex-wrap gap-y-8">
                 {
                     sousCategories.filter((subCat)=> subCat.categorie === categorie?.designation).map((subCat,key)=>(
                         <SubCategorieCard key={key} subCategorie={subCat}/>

@@ -76,12 +76,12 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
     }
 
   return (
-    <div className="w-full px-10 py-15 min-h-screen flex flex-col gap-12">
-        <h4 className="text-6xl font-semibold">Valider la commande</h4>
+    <div className="w-full px-10 max-lg:px-5 py-15 min-h-screen flex flex-col gap-12">
+        <h4 className="text-6xl max-lg:text-5xl font-semibold">Valider la commande</h4>
         <div className="w-full flex flex-col gap-4 py-6">
             <div className="w-full flex flex-col justify-center items-center gap-8">
-                <div className="w-140 flex flex-col gap-4">
-                    <span className="text-4xl py-5 font-semibold text-center w-full border-b-3 border-b-gray-200">Détail de la commande</span>
+                <div className="w-140 max-lg:w-full flex flex-col gap-4">
+                    <span className="text-4xl max-lg:text-3xl py-5 font-semibold text-center w-full border-b-3 border-b-gray-200">Détail de la commande</span>
                     {
                         cart.length === 0 
                         ? <span className="text-gray-300 text-5xl font-semibold w-full text-center">Panier vide</span>

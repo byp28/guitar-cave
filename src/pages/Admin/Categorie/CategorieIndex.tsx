@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,19 +9,61 @@ import type { TReducer } from "../../../Store";
 import { fetchCategorie } from "../../../features/CategorieSlice";
 import { AiOutlineDelete } from "react-icons/ai";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
+import Loading from "../../../components/Loading";
+import Modal, { type TModalData } from "../../../layouts/Modal";
 
 export default function CategorieIndex({changeAction, selectCategorie} : {changeAction : (name:string)=> void, selectCategorie : (n:number,c:TCategorie)=> void,}) {
 
     const {categories, loadingCategorie} = useSelector((state:TReducer)=> state.categorie.data)
+    const [idSelected, setIdSelected] = useState<number|undefined>()
+    const [loadingPage, setLoadingPage] = useState(false)
+    const [toggleModal, setToggleModal] = useState(false)
     const Appdispatch = useAppDispatch()
 
-    const deleteOneCategorie = async (id:number)=>{
-        const categorieResponse = await deleteCategorie(id)
 
-        if(categorieResponse.data.code === 202){
-            //fillCategories()
+    const ModalData :TModalData = {
+        text : "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
+        valide : {
+            text : "Supprimer",
+            color : "white",
+            background : "red-400"
+        } ,
+        close : {
+            text : "Annuler",
+            color : "white",
+            background : "green-400"
+        } 
+    }
+
+    const deletedCategorie = (prod : TCategorie)=>{
+        setIdSelected(prod.id)
+        setToggleModal(true)
+    }
+
+    const deleteOneCategorie = async ()=>{
+        if(!idSelected){
+            closeModal()
+        }else{
+            closeModal()
+            setLoadingPage(true)
+            try {
+                const categorieDeleted = await deleteCategorie(idSelected)
+                if(categorieDeleted.status === 200){
+                    Appdispatch(fetchCategorie())
+                    setLoadingPage(false)
+                }else{
+                    console.log(categorieDeleted)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
+
+    const closeModal = ()=>{
+        setToggleModal(false)
+    }
+
 
     const editOneCategorie = (id:number, obj:TCategorie)=>{
         selectCategorie(id,obj)
@@ -38,11 +80,16 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
         }
     },[categories])
 
+    
+    if(loadingCategorie || loadingPage){
+        return <Loading/>
+    }
+        
 
   return (
     <>
         <div className="w-full flex items-center justify-between">
-            <span className='text-5xl font-medium'>Categories</span>
+            <span className='text-5xl max-lg:text-4xl font-medium'>Categories</span>
             <span onClick={()=>changeAction("create")} className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
         </div>
         <div className="flex gap-8">
@@ -77,7 +124,7 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{c.designation}</td>
                             <td className="px-6 py-4 whitespace-nowrap flex justify-end gap-2 text-end text-sm font-medium">
                                 <HiOutlinePencilSquare onClick={()=>editOneCategorie(c.id as number, c)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
-                                <AiOutlineDelete onClick={()=>deleteOneCategorie(c.id as number)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete onClick={()=>deletedCategorie(c)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
                             </td>
                         </tr>
                     ))
@@ -87,6 +134,13 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
             </table>
         </div>
         </div>
+        {
+            toggleModal && <Modal
+                Data={ModalData}
+                closeModal = {closeModal}
+                Action = {deleteOneCategorie}
+            />
+        }
 
     </>
   )

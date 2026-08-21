@@ -3,6 +3,7 @@ import { createCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
 import CategorieCardForm from "../../../components/CategorieCardForm";
 import { useAppDispatch } from "../../../hook";
 import { fetchCategorie } from "../../../features/CategorieSlice";
+import Loading from "../../../components/Loading";
 
 export default function CreateCategorie({changeAction} : {changeAction : (name:string)=> void}) {
   
@@ -29,14 +30,13 @@ export default function CreateCategorie({changeAction} : {changeAction : (name:s
         const categorieCreate = await createCategorie(newCategorie);
         
         if(categorieCreate.data.code === 201){
-            setLoading(false)
             Appdispatch(fetchCategorie())
             changeAction("index")
         }else{
           setLoading(false)
         }
       }catch(error){
-            console.log(error)
+        console.log(error)
       }
   }
 
@@ -60,12 +60,15 @@ export default function CreateCategorie({changeAction} : {changeAction : (name:s
     })
   };
 
+    if(loading){
+      return <Loading/>
+    }
 
   return (
-    <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Ajouter un Produit</span>
-        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
-          <div className="flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-8 max-lg:gap-10">
+        <span className='text-5xl max-lg:text-4xl font-medium'>Créer une Categorie</span>
+        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between max-lg:items-center max-lg:flex-col-reverse max-lg:gap-10 max-lg:py-12" action="post">
+          <div className="flex flex-col max-lg:w-full gap-6">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Designation</span>
                   <input name="designation" onChange={handleChangeText} type="text" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>

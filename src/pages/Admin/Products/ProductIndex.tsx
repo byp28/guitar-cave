@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,20 +9,63 @@ import { useSelector } from "react-redux";
 import type { TReducer } from "../../../Store";
 import { useAppDispatch } from "../../../hook";
 import { fetchProduct } from "../../../features/ProductSlice";
+import Modal, { type TModalData } from "../../../layouts/Modal";
+import Loading from "../../../components/Loading";
 
 export default function ProductIndex({changeAction,selectProductID} : {changeAction : (name:string)=> void, selectProductID : (prod : TProduct)=>void}) {
 
     const {products, loading} = useSelector((state:TReducer)=> state.product.data)
-      const Appdispatch = useAppDispatch()
+    const [idSelected, setIdSelected] = useState<number|undefined>()
+    const [toggleModal, setToggleModal] = useState(false)
+    const [loadingPage, setLoadingPage] = useState(false)
+    const Appdispatch = useAppDispatch()
+
+    const ModalData :TModalData = {
+        text : "Êtes-vous sûr de vouloir supprimer ce produit ?",
+        valide : {
+            text : "Supprimer",
+            color : "white",
+            background : "red-400"
+        } ,
+        close : {
+            text : "Annuler",
+            color : "white",
+            background : "green-400"
+        } 
+    }
 
     const editProduct = (prod : TProduct)=>{
         selectProductID(prod),
-        console.log(prod)
         changeAction("edit")
     }
+
     const deletedProduct = (prod : TProduct)=>{
-        deleteProduct(prod.id as number)
-        changeAction("index")
+        setIdSelected(prod.id)
+        setToggleModal(true)
+    }
+
+    const deleteOneProduct  = async ()=>{
+        if(!idSelected){
+            closeModal()
+        }else{
+            closeModal()
+            setLoadingPage(true)
+            try {
+                const productDeleted = await deleteProduct(idSelected)
+                if(productDeleted.status === 200){
+                    Appdispatch(fetchProduct())
+                    setLoadingPage(false)
+                }else{
+                    console.log(productDeleted)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    const closeModal = ()=>{
+        setToggleModal(false)
     }
 
     useEffect(()=>{
@@ -30,11 +73,15 @@ export default function ProductIndex({changeAction,selectProductID} : {changeAct
             Appdispatch(fetchProduct())
         }
     }, [products])
+
+    if(loadingPage || loading){
+        return <Loading/>
+    }
     
   return (
     <>
         <div className="w-full flex items-center justify-between">
-            <span className='text-5xl font-medium'>Produits</span>
+            <span className='text-5xl max-lg:text-4xl font-medium'>Produits</span>
             <span onClick={()=>changeAction("create")} className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
         </div>
         <div className="flex gap-8">
@@ -84,7 +131,14 @@ export default function ProductIndex({changeAction,selectProductID} : {changeAct
             </table>
         </div>
         </div>
-
+        {
+            toggleModal && <Modal
+            Data={ModalData}
+            closeModal = {closeModal}
+            Action = {deleteOneProduct}
+        />
+        }
+        
     </>
   )
 }

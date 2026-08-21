@@ -18,12 +18,12 @@ export default function CategorieSelecteur({categorieSelected, setCategorieSelec
     return (
         <span className="flex flex-col gap-2">
             <span className="font-medium text-lg">Categorie</span>
-            <div className="w-3xs z-11 rounded-md border-2 font-semibold border-[#5d5d5d] h-12 p-4 flex justify-between items-center cursor-pointer relative">
+            <div className="w-3xs max-lg:w-full z-11 rounded-md border-2 font-semibold border-[#5d5d5d] h-12 p-4 flex justify-between items-center cursor-pointer relative">
             <span>{categorieSelected ? categorieSelected.designation : "Sélectionnez une Catégorie" }</span>
             <IoIosArrowDown className={toggleCategorieSelect ? "rotate-180 cursor-pointer" : "rotate-0 cursor-pointer"}  onClick={()=> setToggleCategorieSelect(!toggleCategorieSelect)}/>
             {
                 toggleCategorieSelect &&
-                <div className="w-3xs absolute flex flex-col z-9 -left-0.5 top-10 border-2 border-[#5d5d5d] border-t-0 rounded-t-none bg-white rounded-md ">
+                <div className="w-3xs max-lg:w-full  absolute flex flex-col z-9 -left-0.5 top-10 border-2 border-[#5d5d5d] border-t-0 rounded-t-none bg-white rounded-md ">
                 {
                     categories.map((cat,key)=>(
                     <span className={`p-4 w-full hover:bg-gray-100 ${categories.length -1 === key && "rounded-b-md"}`} key={key} onClick={()=> selectCategorie(cat)} >{cat.designation}</span>

@@ -1,5 +1,5 @@
-import { createProduct, updateProduct, type TCategorie, type TProduct, type TSousCategorie } from "../../../utils/guitarCaveApi";
-import { useEffect, useState } from "react";
+import { updateProduct, type TCategorie, type TProduct, type TSousCategorie } from "../../../utils/guitarCaveApi";
+import { useState } from "react";
 import CategorieSelecteur from "../../../components/Form/CategorieSelecteur";
 import SousCategorieSelecteur from "../../../components/Form/SousCategorieSelecteur";
 import MultiDescription from "../../../components/Form/MultiDescription";
@@ -8,6 +8,9 @@ import type { TDescription, TTechDescription } from "./CreateProduct";
 import { useSelector } from "react-redux";
 import type { TReducer } from "../../../Store";
 import CardExample from "../../../components/Form/CardExample";
+import { fetchProduct } from "../../../features/ProductSlice";
+import { useAppDispatch } from "../../../hook";
+import Loading from "../../../components/Loading";
 
 
 export default function EditProduct({changeAction,oldProduct} : {changeAction : (name:string)=> void, oldProduct : TProduct}) {
@@ -20,6 +23,8 @@ export default function EditProduct({changeAction,oldProduct} : {changeAction : 
     const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(
         sousCategories[sousCategories.findIndex((element)=> element.designation === oldProduct.sousCategorie)] ?? null
     )
+    const [loading, setLoading] = useState(false)
+    const Appdispatch = useAppDispatch()
 
     const fillDescription = ()=>{
         const newTab = oldProduct.description.split(";")
@@ -132,26 +137,32 @@ export default function EditProduct({changeAction,oldProduct} : {changeAction : 
         imgFile : formData.get("imgFile") as File,
         image : oldProduct.image,
       }
+
+      setLoading(true)
       try{
         const productCreate = await updateProduct(newProduct,oldProduct.id as number);
             
         if(productCreate.data.code === 201){
-          changeAction("index")
+            Appdispatch(fetchProduct())
+            changeAction("index")
         }else{
-          //setLoading(false)
+            setLoading(false)
         }
       }catch(error){
         console.log(error)
       }
     }
 
+    if(loading){
+        return <Loading/>
+    }
    
 
   return (
-    <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Ajouter un Produit</span>
-        <form  onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
-          <div className="flex flex-col gap-3">
+    <div className="w-full flex flex-col gap-8 max-lg:gap-10">
+        <span className='text-5xl max-lg:text-4xl font-medium'>Modifier</span>
+        <form  onSubmit={handleSubmit}  method="post" className="w-full flex max-lg:items-center justify-between max-lg:flex-col-reverse max-lg:gap-10 max-lg:py-12" action="post">
+          <div className="flex flex-col max-lg:w-full gap-3">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Nom</span>
                   <input type="text" name="name" defaultValue={oldProduct.nom} className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>

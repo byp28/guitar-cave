@@ -1,12 +1,15 @@
-
 import { useState } from "react";
 import { updateCategorie, type TCategorie } from "../../../utils/guitarCaveApi";
 import CategorieExemple from "../../../components/CategorieExemple";
+import Loading from "../../../components/Loading";
+import { fetchCategorie } from "../../../features/CategorieSlice";
+import { useAppDispatch } from "../../../hook";
 
 export default function EditCategorie({changeAction, id, categorieObject} : {changeAction : (name:string)=> void, id:number, categorieObject : TCategorie}) {
   
   const [loading , setLoading] = useState<boolean>(false);
-
+  const Appdispatch = useAppDispatch()
+  
   const handleSubmit = async (e : React.FormEvent)=>{  
       e.preventDefault();
       setLoading(true);  
@@ -18,12 +21,11 @@ export default function EditCategorie({changeAction, id, categorieObject} : {cha
         img : categorieObject.img,
       }
 
-      console.log(newCategorie)
       try{
         const categorieEdit = await updateCategorie(newCategorie, id);
         
         if(categorieEdit.data.code === 201){
-            setLoading(false)
+            Appdispatch(fetchCategorie())
             changeAction("index")
         }else{
           setLoading(false)
@@ -33,12 +35,15 @@ export default function EditCategorie({changeAction, id, categorieObject} : {cha
       }
    }
 
-
+    if(loading){
+        return <Loading/>
+    }
+   
   return (
-    <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Modifier une Catégorie</span>
-        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
-          <div className="flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-8 max-lg:gap-20">
+        <span className='text-5xl max-lg:text-4xl font-medium'>Modifier</span>
+        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between max-lg:items-center max-lg:flex-col-reverse max-lg:gap-10 max-lg:py-12" action="post">
+          <div className="flex flex-col gap-6 max-lg:w-full">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Designation</span>
                   <input name="designation" type="text" defaultValue={categorieObject.designation} className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>

@@ -16,8 +16,8 @@ export default function MutltiInput({onDelete, updateComponent, id, baseValue} :
 
   return (
     <>
-        <div>
-            <input ref={inputRef} onChange={onChangeInput} defaultValue={baseValue ?? ""} type="text" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0" />
+        <div className="max-lg:w-full max-lg:flex max-lg:justify-between max-lg:items-center max-lg:gap-5 my-2">
+            <input ref={inputRef} onChange={onChangeInput} defaultValue={baseValue ?? ""} type="text" className="w-80 max-lg:w-full border-2 px-4 py-2 border-gray-400 rounded-lg outline-0" />
             <span onClick={()=>onDelete()} className="border-2 px-4 py-2 border-gray-400 rounded-lg cursor-pointer mx-4">-</span>
         </div>
         

@@ -92,16 +92,16 @@ export default function ClientAddress() {
             <div className="w-md">
                 <input className="w-25 p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="code" type="number" defaultValue={address ? address.code : undefined} required />
             </div>
-            <span className="w-md font-semibold">Numéros</span>
+            <span className="w-md max-lg:w-full font-semibold">Numéros</span>
             <div className="w-md">
                 <input className="w-25 p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="numeros" type="number" defaultValue={address ? address.number : undefined} required />
             </div>
-            <span className="w-md font-semibold">Rue</span>
-                <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="rue" type="text" defaultValue={address ? address.rue : undefined} required />
-            <span className="w-md font-semibold">Ville</span>
-                <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="ville" type="text" defaultValue={address ? address.ville : undefined} required />
-            <span className="w-md font-semibold">Complement</span>
-            <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="complement" type="text" defaultValue={address ? address.complement : undefined} required />  
+            <span className="w-md max-lg:w-full font-semibold">Rue</span>
+                <input className="w-md p-2 max-lg:w-full text-md border-2 border-gray-400 outline-0 rounded-lg" name="rue" type="text" defaultValue={address ? address.rue : undefined} required />
+            <span className="w-md max-lg:w-full font-semibold">Ville</span>
+                <input className="w-md max-lg:w-full p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="ville" type="text" defaultValue={address ? address.ville : undefined} required />
+            <span className="w-md max-lg:w-full font-semibold">Complement</span>
+            <input className="w-md max-lg:w-full p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="complement" type="text" defaultValue={address ? address.complement : undefined} required />  
             
             <button className="w-30 my-4 cursor-pointer overflow-hidden py-3 text-white rounded-xl flex items-center justify-center font-semibold 
             relative before:w-full  before:h-full before:bg-black before:absolute  before:z-2 before:top-0 before:left-0

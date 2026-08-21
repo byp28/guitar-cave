@@ -54,7 +54,7 @@ export default function MultiDescription({addDescription, removeDescription, upd
         updateDescription(newDesc)
     }
 
-    console.log(components,"mil")
+  
   return (
     <div className="flex flex-col gap-2">
         {components.map((id) => (

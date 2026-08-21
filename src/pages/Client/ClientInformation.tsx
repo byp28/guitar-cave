@@ -77,10 +77,10 @@ export default function ClientInformation() {
     <div className='w-4/5 max-lg:w-full max-lg:px-0 min-h-screen  px-10  flex flex-col gap-10'>
         <span className="text-5xl max-lg:text-4xl font-semibold">Modifier mes informations</span>
         <form onSubmit={handleSubmit}  method="POST"  className="w-full flex flex-col gap-3">
-            <span className="w-md font-semibold">Email</span>
-            <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="email" type="email" defaultValue={user ? user.email : undefined} required />
-            <span className="w-md font-semibold">Nom</span>
-            <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="nom" type="text" defaultValue={user ? user.nom : undefined} required />
+            <span className="w-md max-lg:w-full font-semibold">Email</span>
+            <input className="w-md max-lg:w-full p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="email" type="email" defaultValue={user ? user.email : undefined} required />
+            <span className="w-md max-lg:w-full font-semibold">Nom</span>
+            <input className="w-md max-lg:w-full p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="nom" type="text" defaultValue={user ? user.nom : undefined} required />
             <span className="text-red-500 text-sm font-medium w-md">{error.pseudo}</span>
             
             <button className="w-30 my-4 cursor-pointer overflow-hidden py-3 text-white rounded-xl flex items-center justify-center font-semibold 

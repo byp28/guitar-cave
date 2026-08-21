@@ -27,7 +27,7 @@ export default function Banner() {
     },[])
     
   return (
-    <div className="w-290 h-125 max-lg:w-100 mx-lg:h-80  flex rounded-xl items-center relative">
+    <div className="w-290 h-125 max-lg:w-full mx-lg:h-80  flex rounded-xl items-center relative">
         <div className="flex w-full justify-between items-center z-2">
             <IoIosArrowBack onClick={()=>toggleImage(-1)} className="w-15 h-15 p-2 cursor-pointer" />
             <IoIosArrowForward onClick={()=>toggleImage(1)} className="w-15 h-15 p-2 cursor-pointer" />

@@ -1,7 +1,7 @@
 import { BiCategory } from "react-icons/bi";
 import { ImTable2 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
-import { deleteSousCategorie, getSousCategorie, type TSousCategorie } from "../../../utils/guitarCaveApi";
+import { deleteSousCategorie, type TSousCategorie } from "../../../utils/guitarCaveApi";
 import { useEffect, useState } from "react";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -9,20 +9,62 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../hook";
 import type { TReducer } from "../../../Store";
 import { fetchSubCategorie } from "../../../features/SousCategorieSlice";
+import Loading from "../../../components/Loading";
+import type { TModalData } from "../../../layouts/Modal";
+import Modal from "../../../layouts/Modal";
 
 export default function SousCategorieIndex({changeAction, selectCSousCategorie} : {changeAction : (name:string)=> void, selectCSousCategorie : (n:number,c:TSousCategorie)=> void,}) {
   
     const {sousCategories, loadingSubCategorie} = useSelector((state:TReducer)=> state.sousCategorie.data)
     const Appdispatch = useAppDispatch()
+    const [idSelected, setIdSelected] = useState<number|undefined>()
+    const [loadingPage, setLoadingPage] = useState(false)
+    const [toggleModal, setToggleModal] = useState(false)
 
 
-    const deleteOneCategorie = async (id:number)=>{
-        const categorieResponse = await deleteSousCategorie(id)
+    const ModalData :TModalData = {
+        text : "Êtes-vous sûr de vouloir supprimer cette sous catégorie ?",
+        valide : {
+            text : "Supprimer",
+            color : "white",
+            background : "red-400"
+        } ,
+        close : {
+            text : "Annuler",
+            color : "white",
+            background : "green-400"
+        } 
+    }
 
-        if(categorieResponse.data.code === 202){
-            Appdispatch(fetchSubCategorie())
+    const deletedSousCategorie = (prod : TSousCategorie)=>{
+        setIdSelected(prod.id)
+        setToggleModal(true)
+    }
+
+    const deleteOneSousCategorie = async ()=>{
+        if(!idSelected){
+            closeModal()
+        }else{
+            closeModal()
+            setLoadingPage(true)
+            try {
+                const sousCategorieDeleted = await deleteSousCategorie(idSelected)
+                if(sousCategorieDeleted.status === 200){
+                    Appdispatch(fetchSubCategorie())
+                    setLoadingPage(false)
+                }else{
+                    console.log(sousCategorieDeleted)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
+
+    const closeModal = ()=>{
+        setToggleModal(false)
+    }
+
 
     const editOneCategorie = (id:number, obj:TSousCategorie)=>{
         selectCSousCategorie(id,obj)
@@ -38,11 +80,16 @@ export default function SousCategorieIndex({changeAction, selectCSousCategorie} 
             window.scrollTo(0, 0);
         }
     },[sousCategories])
+
+        
+    if(loadingSubCategorie || loadingPage){
+        return <Loading/>
+    }
   
 return (
     <>
         <div className="w-full flex items-center justify-between">
-            <span className='text-5xl font-medium'>Sous-Categories</span>
+            <span className='text-5xl max-lg:text-4xl font-medium'>Sous-Categories</span>
             <span onClick={()=>changeAction("create")} className="w-15 h-15 flex justify-center items-center cursor-pointer text-3xl font-semibold rounded-sm bg-[#41EAD4] text-white">+</span>
         </div>
         <div className="flex gap-8">
@@ -79,7 +126,7 @@ return (
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{sousCat.categorie}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium flex justify-end gap-4">
                                 <HiOutlinePencilSquare onClick={()=>editOneCategorie(sousCat.id as number, sousCat)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
-                                <AiOutlineDelete className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
+                                <AiOutlineDelete onClick={()=>deletedSousCategorie(sousCat)} className="w-6 h-6 cursor-pointer hover:text-[#B91372]" />
                                 {/* <button type="button" className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg text-primary hover:text-primary-hover focus:outline-hidden focus:text-primary-focus disabled:opacity-50 disabled:pointer-events-none">Delete</button> */}
                             </td>
                         </tr>
@@ -92,6 +139,14 @@ return (
         </div>
         </div>
 
+        {
+            toggleModal && <Modal
+                Data={ModalData}
+                closeModal = {closeModal}
+                Action = {deleteOneSousCategorie}
+            />
+        }
+        
     </>
   )
 }

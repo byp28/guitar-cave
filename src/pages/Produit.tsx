@@ -161,10 +161,10 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
     }
 
   return (
-    <div className="w-full px-15  py-8 pt-20 flex flex-col gap-15">
+    <div className="w-full px-10 max-lg:px-5  py-8 pt-20 flex flex-col gap-15">
         <div className="w-full flex max-lg:flex-col max-lg:justify-center max-lg:items-center justify-around max-lg:gap-8">
             <div className="w-1/2 max-lg:w-full max-lg:justify-center max-lg:items-center max-lg:flex-col flex gap-3">
-                <div className="w-full h-auto max-lg:h-auto">
+                <div className="w-full max-lg:flex max-lg:justify-center max-lg:items-center h-auto max-lg:h-auto">
                     <img src={`${import.meta.env.VITE_API_ADRESS}/img/product/${product?.image}`} className="h-full" alt={product?.nom} />
                 </div>
             </div>
@@ -199,17 +199,17 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
         </div>
         <div className="flex flex-col gap-6 text-justify font-medium">
             <h4 className="text-4xl font-semibold">Détails</h4>
-            <ul className="list-disc flex flex-col gap-2 pr-20">
+            <div className="list-disc flex flex-col gap-2 pr-20">
                 {
                     fillDescription().map((desc,key)=>(
-                        <li key={key}>{desc.value}</li>
+                        <span key={key}>{desc.value}</span>
                     ))
                 }
-            </ul>
-            <div className="flex h-80 flex-wrap flex-col w-full">
+            </div>
+            <div className="flex h-80 flex-wrap flex-col w-full max-lg:h-auto">
                 {
                     fillTechDescription().map((desc,key)=>(
-                        <div key={key} className={`py-4 flex justify-between items-center border-t-2 ${key === fillTechDescription().length - 1 ? "" : "border-t-black"}  w-100`}>
+                        <div key={key} className={`py-4 flex justify-between items-center border-t-2 ${key === fillTechDescription().length - 1 ? "" : "border-t-black"}  w-100 max-lg:w-full`}>
                             <span className="font-bold">{desc.key}</span>
                             <span>{desc.value}</span>
                         </div>
@@ -217,7 +217,7 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
                 }
             </div>
         </div>
-        <section className="flex flex-col gap-15 text-justify font-medium">
+        <section className="flex flex-col gap-15 font-medium">
             <h4 className="text-4xl text-left font-semibold">Laissez une évalution</h4>
             <div className="w-full flex items-center justify-center gap-4">
                 <span onMouseOver={()=>setStars(1)} onMouseOut={()=>setStars(0)} className="relative max-lg:w-10 max-lg:h-10 w-20 h-20 cursor-pointer">

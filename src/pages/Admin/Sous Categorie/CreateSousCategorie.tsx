@@ -4,15 +4,16 @@ import CategorieSelecteur from "../../../components/Form/CategorieSelecteur";
 import CategorieCardForm from "../../../components/CategorieCardForm";
 import { useAppDispatch } from "../../../hook";
 import { fetchSubCategorie } from "../../../features/SousCategorieSlice";
+import Loading from "../../../components/Loading";
 
 export default function CreateSousCategorie({changeAction} : {changeAction : (name:string)=> void}) {
 
   const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(null)
   const [newCategorie,setNewCategorie] = useState<TCategorie>({
-    designation : "Nouvelle Categorie",
+    designation : "Nouvelle sous categorie",
     img : "https://blocks.astratic.com/img/general-img-landscape.png"
   })
-
+  const [loading, setLoading] = useState(false)
   const Appdispatch = useAppDispatch()
 
 
@@ -26,6 +27,7 @@ export default function CreateSousCategorie({changeAction} : {changeAction : (na
       imgFile : formData.get("imgFile") as File,
       img : "none",
     }
+    setLoading(true)
 
     try{
       const categorieCreate = await createSousCategorie(newSousCategorie);
@@ -33,8 +35,9 @@ export default function CreateSousCategorie({changeAction} : {changeAction : (na
       if(categorieCreate.data.code === 201){
         changeAction("index")
         Appdispatch(fetchSubCategorie())
+        
       }else{
-        //setLoading(false)
+        setLoading(false)
       }
       }catch(error){
         console.log(error)
@@ -61,11 +64,16 @@ export default function CreateSousCategorie({changeAction} : {changeAction : (na
     })
   };
 
+  
+  if(loading){
+    return <Loading/>
+  }
+
   return (
-    <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Ajouter une sous Produit</span>
-        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
-          <div className="flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-8 max-lg:gap-10">
+        <span className='text-5xl max-lg:text-4xl font-medium'>Ajouter une sous catégorie</span>
+        <form onSubmit={handleSubmit}  method="post" className="w-full flex justify-between max-lg:items-center max-lg:flex-col-reverse max-lg:gap-10 max-lg:py-12" action="post">
+          <div className="flex flex-col gap-6 max-lg:w-full">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Designation</span>
                   <input name="designation" onChange={handleChangeText} type="text" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>

@@ -7,6 +7,7 @@ import MultiTechDescription from "../../../components/Form/MultiTechDescription"
 import ProductCardForm from "../../../components/Form/ProductCardForm";
 import { fetchProduct } from "../../../features/ProductSlice";
 import { useAppDispatch } from "../../../hook";
+import Loading from "../../../components/Loading";
 
 export type TDescription = {
     id : number,
@@ -24,6 +25,7 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
     const [categorieSelected, setCategorieSelected] = useState<TCategorie | null>(null)
     const Appdispatch = useAppDispatch()
     const [sousCategorieSelected, setSousCategorieSelected] = useState<TSousCategorie | null>(null)
+    const [loading, setLoading] = useState(false)
     const [description, setDescription] = useState<TDescription[]>([{
         id : 0,
         value : ""
@@ -118,16 +120,16 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
         imgFile : formData.get("imgFile") as File,
         image : "none",
       }
+      setLoading(true)
     
-      console.log(newProduct)
       try{
         const productCreate = await createProduct(newProduct);
             
         if(productCreate.data.code === 201){
             Appdispatch(fetchProduct())
-          changeAction("index")
+            changeAction("index")
         }else{
-          //setLoading(false)
+          setLoading(false)
         }
       }catch(error){
         console.log(error)
@@ -136,8 +138,6 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
 
     const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
-
-        if (!text) return;
 
         setNProduct({...nproduct,
             nom : text
@@ -164,13 +164,15 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
     })
   };
 
-   
+   if(loading){
+    return <Loading/>
+   }
 
   return (
-    <div className="w-full flex flex-col gap-8">
-        <span className='text-5xl font-medium'>Ajouter un Produit</span>
-        <form  onSubmit={handleSubmit}  method="post" className="w-full flex justify-between" action="post">
-          <div className="flex flex-col gap-3">
+    <div className="w-full flex flex-col gap-8 max-lg:gap-20">
+        <span className='text-5xl max-lg:text-4xl font-medium'>Ajouter un Produit</span>
+        <form  onSubmit={handleSubmit}  method="post" className="w-full flex justify-between max-lg:items-center max-lg:flex-col-reverse max-lg:gap-10 max-lg:py-12" action="post">
+          <div className="flex flex-col max-lg:w-full gap-3">
               <span className="flex flex-col gap-2">
                   <span className="font-medium text-lg">Nom</span>
                   <input type="text" onChange={handleChangeName} name="name" className="w-80 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0"/>
@@ -193,7 +195,7 @@ export default function CreateProduct({changeAction} : {changeAction : (name:str
                   <span className="font-medium text-lg">Description technique</span>
                   <MultiTechDescription addTechDescription={addTechDescription}  removeTechDescription={removeTechDescription} updateTechDescription={updateTechDescription}/>
               </span>
-              <button className="w-30 text-lg py-3 cursor-pointer bg-[#B91372] rounded-lg hover:text-[#B91372] hover:bg-white hover:border-2 hover:border-[#B91372] text-white font-medium flex items-center justify-center">
+              <button className="w-40 text-lg my-10 py-3 cursor-pointer bg-[#B91372] rounded-lg hover:text-[#B91372] hover:bg-white hover:border-2 hover:border-[#B91372] text-white font-medium flex items-center justify-center">
                 Valider
               </button>
           </div>

@@ -71,12 +71,12 @@ export default function Login({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
   
 
   return (
-    <form  onSubmit={handleSubmit} method="POST"  className="w-full h-screen p-8 gap-2 flex items-center justify-center flex-col">
-        <h4 className="py-8 w-md text-5xl">Se connecter</h4>
-        <span className="w-md font-semibold">Email</span>
-        <input className="w-md p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="email" type="mail" required />
-        <span className="w-md font-semibold">Mot de passe</span>
-        <div className="w-md py-2 px-4 text-md border-2 border-gray-400 flex items-center gap-4 justify-between rounded-lg">
+    <form  onSubmit={handleSubmit} method="POST"  className="w-full h-screen p-8 max-lg:p-5 gap-2 flex items-center justify-center flex-col">
+        <h4 className="py-8 w-md max-lg:w-full text-5xl max-lg:text-4xl">Se connecter</h4>
+        <span className="w-md max-lg:w-full font-semibold">Email</span>
+        <input className="w-md max-lg:w-full p-2 text-md border-2 border-gray-400 outline-0 rounded-lg" name="email" type="mail" required />
+        <span className="w-md max-lg:w-full font-semibold">Mot de passe</span>
+        <div className="w-md max-lg:w-full py-2 px-4 text-md border-2 border-gray-400 flex items-center gap-4 justify-between rounded-lg">
           <input className="outline-0 w-full" name="password" type={togglePassword ? "password" : "text"} required />
           <span>
             {
@@ -89,13 +89,13 @@ export default function Login({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
         {
           error && <span className="text-red-500 font-semibold py-4">Email ou le mot de passe est incorrect</span>
         }
-        <button className="w-md my-4 cursor-pointer overflow-hidden py-3 text-white rounded-full flex items-center justify-center font-semibold 
+        <button className="w-md max-lg:w-full my-4 cursor-pointer overflow-hidden py-3 text-white rounded-full flex items-center justify-center font-semibold 
         relative before:w-full  before:h-full before:bg-black before:absolute  before:z-2 before:top-0 before:left-0
         transition delay-150 duration-300  before:transition-all  before:delay-155  before:duration-400 hover:text-black hover:before:top-15 
         ">
           <span className="text-xl z-2">Soumettre</span>
         </button>
-        <Link to={"/register"} className="w-md my-2 p-1 h-13 cursor-pointer overflow-hidden text-black rounded-full flex items-center justify-center font-semibold text-xl 
+        <Link to={"/register"} className="w-md max-lg:w-full my-2 p-1 h-13 cursor-pointer overflow-hidden text-black rounded-full flex items-center justify-center font-semibold text-xl 
         relative before:w-full before:rounded-full  before:h-full before:bg-black before:absolute  before:z-2 before:top-0 before:-left-120
         transition delay-150 duration-300  before:transition-all  before:delay-155  before:duration-400 hover:text-black hover:before:left-0
         ">

@@ -19,11 +19,11 @@ export default function MutltiInput({onDelete, updateComponent, id,BaseValue} :
 
   return (
     <>
-        <div>
+        <div className="max-lg:w-full max-lg:flex max-lg:items-center max-lg:justify-between my-2">
             <input ref={inputKeyRef} onChange={onChangeInput} defaultValue={BaseValue ? BaseValue.key : ""}  type="text" className="w-35 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0" />
             <span className="mx-2 font-semibold">-</span>
             <input ref={inputValueRef} onChange={onChangeInput} defaultValue={BaseValue ? BaseValue.value : ""} type="text" className="w-35 border-2 px-4 py-2 border-gray-400 rounded-lg outline-0" />
-            <span onClick={()=>onDelete()} className="border-2 px-2 py-2 border-gray-400 rounded-lg cursor-pointer mx-4">-</span>
+            <span onClick={()=>onDelete()} className="border-2 px-4 py-2 border-gray-400 rounded-lg cursor-pointer mx-4">-</span>
         </div>
         
     </>

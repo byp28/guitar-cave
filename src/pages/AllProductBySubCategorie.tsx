@@ -48,8 +48,8 @@ export default function AllProductBySubCategorie({toggleNavBar} : {toggleNavBar 
     }
     
   return (
-    <div className="w-full pt-45 pb-40 flex flex-col gap-12">
-        <h2 className="px-20 py-5 font-semibold text-5xl">{categories.find((cat)=> cat.designation === sousCategorie?.categorie)?.designation} - {sousCategorie?.designation}</h2>
+    <div className="w-full py-10 flex flex-col gap-12">
+        <h2 className="px-10 py-5 max-lg:px-5 font-semibold text-5xl max-lg:text-4xl">{categories.find((cat)=> cat.designation === sousCategorie?.categorie)?.designation} - {sousCategorie?.designation}</h2>
         <div className="w-full px-20  py-10 flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
             <div className="w-1/4 max-lg:hidden max-lg:w-full pr-5  flex flex-col gap-2">
                 <span className="text-lg font-semibold">Filtrer par :</span>

@@ -32,9 +32,9 @@ export default function Cart({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
         setTotal(calculatTotal())
     },[cart])
   return (
-    <div className="w-full px-10 py-15 min-h-screen flex flex-col gap-12">
-        <h4 className="text-6xl font-semibold">Mon panier</h4>
-        <div className="w-full flex gap-4 justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-8">
+    <div className="w-full px-10 py-10 max-lg:px-5 min-h-screen flex flex-col gap-12">
+        <h4 className="text-6xl max-lg:text-5xl font-semibold">Mon panier</h4>
+        <div className="w-full flex gap-4  justify-between max-lg:flex-col max-lg:justify-normal max-lg:gap-12">
             <div className="w-2/3 max-lg:w-full flex flex-col gap-8">
                 <div className="w-full flex flex-col gap-4">
                     {
@@ -49,7 +49,7 @@ export default function Cart({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
             </div>
             <div className="w-1/3 max-lg:w-full flex flex-col gap-8">
                 <div className="w-full px-2 flex flex-col items-start justify-center gap-5">
-                    <span className="text-5xl font-semibold mb-4">Total</span>
+                    <span className="text-5xl max-lg:text-4xl font-semibold mb-4">Total</span>
                     <span className="text-6xl font-bold w-full text-center">{total} €</span>
                     <span className="text-xs w-full text-center ">Les prix sont indiqués avec TVA comprise</span>
                     <span onClick={()=> verifie()} className={`${cart.length === 0 ? "hidden" : "flex"} my-10 w-full items-center justify-center gap-4 cursor-pointer`}>

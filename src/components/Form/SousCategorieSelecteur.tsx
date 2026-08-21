@@ -15,7 +15,6 @@ export default function SousCategorieSelecteur({sousCategorieSelected, setSousCa
         if(!filter){
             return sousCategories
         }else{
-            console.log(sousCategories.filter((cat)=> cat.categorie === filter))
             return sousCategories.filter((cat)=> cat.categorie === filter)
         }
     }
@@ -35,12 +34,12 @@ export default function SousCategorieSelecteur({sousCategorieSelected, setSousCa
     return (
         <span className="flex flex-col gap-2">
             <span className="font-medium text-lg">Sous-Categorie</span>
-            <div className="w-3xs z-10 rounded-md border-2 font-semibold border-[#5d5d5d] h-12 p-4 flex justify-between items-center cursor-pointer relative">
+            <div className="w-3xs max-lg:w-full z-10 rounded-md border-2 font-semibold border-[#5d5d5d] h-12 p-4 flex justify-between items-center cursor-pointer relative">
             <span>{sousCategorieSelected ? sousCategorieSelected.designation : "Sélectionnez une sous-catégorie" }</span>
             <IoIosArrowDown className={toggleSousCategorieSelect ? "rotate-180 cursor-pointer" : "rotate-0 cursor-pointer"}  onClick={filter ? ()=> setToggleSousCategorieSelect(!toggleSousCategorieSelect) : ()=>(null) }/>
             {
                 toggleSousCategorieSelect &&
-                <div className="w-3xs absolute flex flex-col z-2 -left-0.5 top-10 border-2 border-[#5d5d5d] border-t-0 rounded-t-none bg-white rounded-md ">
+                <div className="w-3xs max-lg:w-full absolute flex flex-col z-2 -left-0.5 top-10 border-2 border-[#5d5d5d] border-t-0 rounded-t-none bg-white rounded-md ">
                 {
                     sousCategoriesFiltered.map((cat,key)=>(
                     <span className={`p-4 w-full hover:bg-gray-100 ${sousCategories.length -1 === key && "rounded-b-md"}`} key={key} onClick={()=> selectCategorie(cat)} >{cat.designation}</span>

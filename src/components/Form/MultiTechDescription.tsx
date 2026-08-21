@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { TDescription, TTechDescription } from "../../pages/Admin/Products/CreateProduct";
+import type { TTechDescription } from "../../pages/Admin/Products/CreateProduct";
 import MutltiInputWithKey from "./MutltiInputWithKey";
 
 
@@ -14,7 +14,6 @@ export default function MultiTechDescription({addTechDescription, removeTechDesc
     
     const extratID = ()=>{
         const newID : number[] = []
-        console.log(techDescription, "th")
         techDescription?.map((desc)=>{
             newID.push(desc.id)
         })
