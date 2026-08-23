@@ -48,6 +48,11 @@ export const userSlice = createSlice({
             state.data.user = action.payload
             state.data.connected = true
             localStorage.setItem("token", JSON.stringify(state.data.user?.token as string))
+        },
+        deconnexion : (state,_action) =>{
+            state.data.user = undefined,
+            state.data.connected = false,
+            localStorage.removeItem("token")
         }
     },
     extraReducers : (builder)=>{
@@ -70,5 +75,5 @@ export const userSlice = createSlice({
     }
 })
 
-export const {saveCredentials} = userSlice.actions;
+export const {saveCredentials,deconnexion} = userSlice.actions;
 export default userSlice.reducer;

@@ -1,5 +1,35 @@
+import { useState } from "react"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { deconnexion } from "../../features/UserSlice"
+import type { TModalData } from "../../layouts/Modal"
+import Modal from "../../layouts/Modal"
 
 export default function SideMenuMobile({toggleMenuSection,Manage,setManage}: {toggleMenuSection:boolean,Manage:string, setManage : (value:string)=>void}) {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [ToggleModal , setToggleModal] = useState(false)
+    const ContentModal:TModalData = {
+        text : "Êtes-vous sûr de vouloir vous déconnecter ?",
+        valide : {
+            text : "Se déconnecter",
+            background : "red-500",
+            color : "white"
+        },
+        close : {
+            text : "Annuler",
+            background : "green-500",
+            color : "white"
+            }, 
+    } 
+
+    const valideDeconnexion = ()=>{
+        dispatch(deconnexion(""))
+        navigate("/")
+    }
+
   return (
     <section className={toggleMenuSection ? "w-full px-5 py-4 min-h-20 hidden max-lg:block border-b-4 border-b-blue-500 absolute z-11 top-60 left-0 bg-white" : "hidden"}>
                 <div className="w-full  py-4 flex flex-col gap-4">
@@ -42,10 +72,18 @@ export default function SideMenuMobile({toggleMenuSection,Manage,setManage}: {to
                         Manage === "Password" && <span className='w-1 h-4 bg-black'></span>
                     }      
                 </span>
-                <span className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
+                <span onClick={()=> setToggleModal(true)} className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
                     Se déconnecter
                 </span>
                 </div>
+                {
+                    ToggleModal &&
+                    <Modal 
+                        Data={ContentModal}
+                        Action={valideDeconnexion}
+                        closeModal={()=>setToggleModal(false)}
+                    />
+                }
             </section>
   )
 }

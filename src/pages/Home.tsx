@@ -12,6 +12,9 @@ import { fetchCategorie } from "../features/CategorieSlice";
 import CategorieHomeCard from "../components/CategorieHomeCard";
 import { Link } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import Modal, { type TModalData } from "../layouts/Modal";
+import RGPD from "../utils/RGPD";
+
 
 
 export default function Home({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
@@ -19,12 +22,40 @@ export default function Home({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
   const {products, loading} = useSelector((state:TReducer)=> state.product.data)
   const {sousCategories, loadingSubCategorie} = useSelector((state:TReducer)=> state.sousCategorie.data)
   const {categories, loadingCategorie} = useSelector((state:TReducer)=> state.categorie.data)
-
   const Appdispatch = useAppDispatch()
+  const [toggleCookieModal, setToggleCookieModal] = useState(false) 
   const [randomSub, setRandomSub] = useState<number[]>([])
   const [randomCat, setRandomCat] = useState<number[]>([])
 
- 
+  const ContentModal : TModalData = {
+    text : 'rr',
+    content : <RGPD />,
+    valide : {
+      text : "Tout accepter",
+      background : "green-500",
+      color : "white"
+    },
+    close : {
+      text : "Tout refuser",
+      background : "red-500",
+      color : "white"
+    },
+  }
+
+  const AcceptUseCookie = ()=>{
+    localStorage.setItem("cookieActivate", "true")
+    setToggleCookieModal(false)
+  }
+  const RefuseUseCookie = ()=>{
+    localStorage.setItem("cookieActivate", "false")
+    setToggleCookieModal(false)
+  }
+
+  const checkCookie = ()=>{
+    if(!localStorage.getItem("cookieActivate")){
+      setToggleCookieModal(true);
+    }
+  }
 
   const filterProductBySubCategorie = (index:number)=>{
     const newProducts = products.filter((prod)=> prod.sousCategorie === sousCategories[index].designation)
@@ -58,6 +89,7 @@ export default function Home({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
       window.scrollTo(0, 0);
       randomCategorie()
       randomSubCategorie()
+      checkCookie()
     }
   }, [products])
 
@@ -94,6 +126,14 @@ export default function Home({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
           ))
         }
         </section>
+        {
+          toggleCookieModal && 
+          <Modal
+            Data={ContentModal}
+            Action={AcceptUseCookie}
+            closeModal={RefuseUseCookie}
+          />
+        }
     </div>
   )
 }

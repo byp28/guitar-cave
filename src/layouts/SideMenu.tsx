@@ -7,10 +7,43 @@ import { GrServices } from "react-icons/gr";
 import { ImExit } from "react-icons/im";
 import { MdOutlineCategory } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { deconnexion } from "../features/UserSlice";
+import type { TModalData } from "./Modal";
+import Modal from "./Modal";
+import { SiHomeassistantcommunitystore } from "react-icons/si";
 
 
 export default function SideMenu({change} : {change : (name:string)=> void}) {
   const [toggleMenuSection, setToggleMenuSection] = useState(false)
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [ToggleModal , setToggleModal] = useState(false)
+  const ContentModal:TModalData = {
+        text : "Êtes-vous sûr de vouloir vous déconnecter ?",
+        valide : {
+            text : "Se déconnecter",
+            background : "red-500",
+            color : "white"
+        },
+        close : {
+            text : "Annuler",
+            background : "green-500",
+            color : "white"
+            }, 
+    } 
+
+  const valideDeconnexion = ()=>{
+        dispatch(deconnexion(""))
+        navigate("/")
+  }
+
+
+
+
   const changeSection = (name:string)=>{
     change(name)
     setToggleMenuSection(false)
@@ -41,14 +74,23 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             <span onClick={()=>changeSection("Product")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GiMusicalScore />Produits</span>
             <span onClick={()=>changeSection("Categorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><BiCategoryAlt />Catégories</span>
             <span onClick={()=>changeSection("SousCategorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><MdOutlineCategory />Sous-catégorie</span>
+            <span onClick={()=>changeSection("SousCategorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><SiHomeassistantcommunitystore />Commande</span>
             <span className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><FaUsers />Utilistateur</span>
             <span className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GrServices />Paramètre</span>
         </ul>
 
-        <button className="w-full max-lg:hidden px-8 py-4 text-lg gap-2 cursor-pointer bg-[#FF0022] text-white font-medium  flex items-center">
+        <button onClick={()=>setToggleModal(true)} className="w-full max-lg:hidden px-8 py-4 text-lg gap-2 cursor-pointer bg-[#FF0022] text-white font-medium  flex items-center">
             <ImExit />
             Se Deconnecter
         </button>
+        {
+          ToggleModal &&
+          <Modal 
+            Data={ContentModal}
+            Action={valideDeconnexion}
+            closeModal={()=>setToggleModal(false)}
+          />
+        }
     </div>
   )
 }

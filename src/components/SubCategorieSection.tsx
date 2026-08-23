@@ -16,7 +16,7 @@ export default function SubCategorieSection({subCategorie, products} : {subCateg
             }
         </div>
         <span className="w-full flex justify-end max-lg:justify-center">
-            <Link className="text-2xl font-semibold flex items-center" to={"/"}><span>Voir plus</span>  <IoIosArrowRoundForward className="w-12 h-12 block max-lg:hidden" /></Link>
+            <Link className="text-2xl font-semibold flex items-center" to={`/categorie/sous-categorie/${subCategorie.id}`}><span>Voir plus</span>  <IoIosArrowRoundForward className="w-12 h-12 block max-lg:hidden" /></Link>
         </span>
     </div>
   )

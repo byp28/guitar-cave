@@ -1,5 +1,33 @@
+import { useState } from "react"
+import Modal, { type TModalData } from "../../layouts/Modal"
+import { useDispatch } from "react-redux"
+import { deconnexion } from "../../features/UserSlice"
+import { useNavigate } from "react-router-dom"
 
 export default function SideMenu({Manage,setManage}: {Manage:string, setManage : (value:string)=>void}) {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [ToggleModal , setToggleModal] = useState(false)
+    const ContentModal:TModalData = {
+        text : "Êtes-vous sûr de vouloir vous déconnecter ?",
+        valide : {
+            text : "Se déconnecter",
+            background : "red-500",
+            color : "white"
+        },
+        close : {
+            text : "Annuler",
+            background : "green-500",
+            color : "white"
+            }, 
+    } 
+
+    const valideDeconnexion = ()=>{
+        dispatch(deconnexion(""))
+        navigate("/")
+    }
+
   return (
     <div className='w-1/5 flex flex-col gap-3 max-lg:hidden'>
                 <span onClick={()=>setManage("Home")} className='w-fulll py-1 text-lg font-semibold flex justify-between items-center cursor-pointer hover:text-blue-500'>
@@ -41,9 +69,18 @@ export default function SideMenu({Manage,setManage}: {Manage:string, setManage :
                         Manage === "Password" && <span className='w-1 h-4 bg-black'></span>
                     }      
                 </span>
-                <span className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
+                <span onClick={()=> setToggleModal(true)} className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
                     Se déconnecter
                 </span>
+                {
+                    ToggleModal &&
+                    <Modal 
+                        Data={ContentModal}
+                        Action={valideDeconnexion}
+                        closeModal={()=>setToggleModal(false)}
+                    />
+                }
             </div>
+
   )
 }
