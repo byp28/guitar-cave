@@ -31,11 +31,14 @@ export default function Login({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
       setLoading(true)
         try{
           const userLogin = await loginUser(logedUser);
+          
           if(userLogin.status === 404){
             setLoading(false)
             setError(true)
-            console.log(userLogin.data.status)
-          }else if(userLogin.status === 200){
+
+          }
+          else if(userLogin.status === 200){
+
             let credentials : TUserCredentials = userLogin.data.user
             dispatch(saveCredentials(credentials))
             setLoading(false)

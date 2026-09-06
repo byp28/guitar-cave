@@ -37,8 +37,8 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
     } 
 
   const valideDeconnexion = ()=>{
-        dispatch(deconnexion(""))
-        navigate("/")
+    dispatch(deconnexion(""))
+    navigate("/")
   }
 
 
@@ -74,7 +74,7 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             <span onClick={()=>changeSection("Product")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GiMusicalScore />Produits</span>
             <span onClick={()=>changeSection("Categorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><BiCategoryAlt />Catégories</span>
             <span onClick={()=>changeSection("SousCategorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><MdOutlineCategory />Sous-catégorie</span>
-            <span onClick={()=>changeSection("SousCategorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><SiHomeassistantcommunitystore />Commande</span>
+            <span onClick={()=>changeSection("Commande")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><SiHomeassistantcommunitystore />Commande</span>
             <span className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><FaUsers />Utilistateur</span>
             <span className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GrServices />Paramètre</span>
         </ul>

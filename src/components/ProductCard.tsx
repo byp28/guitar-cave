@@ -12,14 +12,14 @@ export default function ProductCard({product} : {product: TProduct}) {
   const {cart} = useSelector((state: TReducer) => state.cart.data)
     
   const addProduct = ()=>{
-    const test : TCart = {
+    const newProduct : TCart = {
       id : product.id as number,
       name : product.nom,
       quantity : 1,
       price : product.price,
       img : product.image
     }
-    dispatch(addProductToCart(test))
+    dispatch(addProductToCart(newProduct))
   }
 
   const removeProduct = (id:number)=>{

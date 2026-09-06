@@ -7,6 +7,7 @@ import { getCategorie, getSousCategorie, type TCategorie, type TSousCategorie } 
 import { useDispatch } from "react-redux";
 import { fillCategorie } from "../features/CategorieSlice";
 import { fillSousCategorie } from "../features/SousCategorieSlice";
+import CommandManage from "./Admin/Commande/CommandManage";
 
 
 export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=> void}) {
@@ -60,6 +61,7 @@ export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
         {Manage === "Product" && <ProductManage/>}
         {Manage === "Categorie" && <CategorieManage/>}
         {Manage === "SousCategorie" && <SousCategorieManage/>}
+        {Manage === "Commande" && <CommandManage/>}
     </div>
   )
 }

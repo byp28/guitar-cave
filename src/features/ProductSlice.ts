@@ -1,14 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getProducts, type TProduct } from "../utils/guitarCaveApi";
 
-export const fetchProduct = createAsyncThunk(
-  "users/fetchProduct",
-  async () => {
-    const response = await getProducts();
-    return response.data;
-  }
-);
-
 export type TInitialProduct = {
     data : {
         products : Array<TProduct>,
@@ -23,6 +15,16 @@ const initialState : TInitialProduct = {
         loading : true
     }
 }
+
+export const fetchProduct = createAsyncThunk(
+  "users/fetchProduct",
+  async () => {
+    const response = await getProducts();
+    return response.data;
+  }
+);
+
+
 
 export const productSlice = createSlice({
     name : "product",

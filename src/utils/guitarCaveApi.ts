@@ -44,6 +44,10 @@ export type TCommande = {
   CommandeNumber : string
 }
 
+export type statusPayload = {
+  status : string
+}
+
 export type TProductInCommande = {
   id : number,
   quantity : number,
@@ -144,16 +148,11 @@ export type TSousCategorie = {
 
 const api = axios.create({
   baseURL: `${import.meta.env.VITE_API_ADRESS}/api`,
-
-  // Headers par défaut
   headers: {
-    //"Content-Type": "application/json",
     "Accept": "application/json",
     "Content-Type": "multipart/form-data",
-    //"Content-Type": "multipart/form-data",
   },
 
-  // Timeout de 10 secondes pour les requêtes
   timeout: 70000,
 });
 
@@ -210,6 +209,8 @@ export const updateComment = (newComment: {data:string}, id:number) => api.post(
 export const deleteComment = (id:number) => api.post(`/avis/${id}/delete`);
 
 export const getCommande = () => api.get("/commande");
+export const editCommande = (id:number, commandeStatus : statusPayload) => api.post("/commande/"+id, commandeStatus);
+export const deleteCommande = (id:number) => api.post("/commande/"+id+"/delete");
 export const getCommandeByUserId = (id : number) => api.get("/commande/"+id+"/user");
 export const createCommande = (newCommande: TCommandePayloads) => api.post("/commande", newCommande);
 export const addProductInCommande = (newProduct: TCommandeProductPayloads, id:number) => api.post("/commande/"+id+"/add", newProduct);

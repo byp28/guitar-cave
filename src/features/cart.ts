@@ -55,7 +55,6 @@ export const cartSlice = createSlice({
             const product = state.data.cart.find(p => p.id === action.payload.id as number)
             if(product){
                 product.quantity = action.payload.value
-                console.log(action.payload.value)
                 localStorage.setItem("cart", JSON.stringify(state.data.cart))
             }
             
