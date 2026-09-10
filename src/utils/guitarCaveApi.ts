@@ -106,6 +106,10 @@ export type TUserPayloads = {
   email : string,
 }
 
+export type TRolePayloads = {
+  role : string
+}
+
 export type TUserPasswordPayloads = {
   password : string,
   newPassword : string,
@@ -173,11 +177,12 @@ api.interceptors.request.use(
 );
 
 
-export const getUser = () => api.get("/product");
+export const getUser = () => api.get("/user");
 export const createUser = (newUser: TUser) => api.post("/user", newUser);
 export const updateUser = (newUser: TUserPayloads, id:number) => api.post("/user/"+id, newUser);
+export const updateUserRole = (newRole: TRolePayloads, id:number) => api.post("/user/"+id+"/role", newRole);
 export const updateUserPassword = (newUser: TUserPasswordPayloads, id:number) => api.post("/user/"+id+"/password", newUser);
-export const deleteUSer = (id:number) => api.post(`/product/${id}/delete`);
+export const deleteUser = (id:number) => api.post(`/user/${id}/delete`);
 export const loginUser = (user: TLogin) => api.post("/auth/login", user);
 export const passport = () => api.post("/auth/passport");
 export const getAddressByUserId = (id:number) => api.get("/user/"+id+"/adresse");
