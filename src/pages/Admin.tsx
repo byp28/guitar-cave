@@ -9,6 +9,7 @@ import { fillCategorie } from "../features/CategorieSlice";
 import { fillSousCategorie } from "../features/SousCategorieSlice";
 import CommandManage from "./Admin/Commande/CommandManage";
 import UserManage from "./Admin/User/UserManage";
+import ChangePassword from "./Admin/ChangePassword";
 
 
 
@@ -65,6 +66,7 @@ export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
         {Manage === "SousCategorie" && <SousCategorieManage/>}
         {Manage === "Commande" && <CommandManage/>}
         {Manage === "User" && <UserManage/>}
+        {Manage === "Pass" && <ChangePassword/>}
     </div>
   )
 }

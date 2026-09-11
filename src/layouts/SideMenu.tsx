@@ -65,7 +65,7 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             <span>Guitar<span className="text-[#FF0022]">Cave</span></span>
             <span className="text-xs font-base  tracking-wide">Admin</span>
           </h1>
-          <div className="hidden max-lg:flex items-center justify-end w-1/3 translate-y-1">
+          <div onClick={()=>setToggleModal(true)} className="hidden max-lg:flex items-center justify-end w-1/3 translate-y-1">
             <ImExit className="w-8 h-8  cursor-pointer" />
           </div>
         </div>
@@ -76,7 +76,7 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             <span onClick={()=>changeSection("SousCategorie")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><MdOutlineCategory />Sous-catégorie</span>
             <span onClick={()=>changeSection("Commande")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><SiHomeassistantcommunitystore />Commande</span>
             <span onClick={()=>changeSection("User")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><FaUsers />Utilistateur</span>
-            <span className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GrServices />Paramètre</span>
+            <span onClick={()=>changeSection("Pass")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GrServices />Changer de mot de passe</span>
         </ul>
 
         <button onClick={()=>setToggleModal(true)} className="w-full max-lg:hidden px-8 py-4 text-lg gap-2 cursor-pointer bg-[#FF0022] text-white font-medium  flex items-center">
