@@ -7,21 +7,26 @@ import { GrServices } from "react-icons/gr";
 import { ImExit } from "react-icons/im";
 import { MdOutlineCategory } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deconnexion } from "../features/UserSlice";
 import type { TModalData } from "./Modal";
 import Modal from "./Modal";
 import { SiHomeassistantcommunitystore } from "react-icons/si";
+import { LuTrash } from "react-icons/lu";
+import { deleteUser } from "../utils/guitarCaveApi";
+import type { TReducer } from "../Store";
 
 
 export default function SideMenu({change} : {change : (name:string)=> void}) {
   const [toggleMenuSection, setToggleMenuSection] = useState(false)
-
+  const [ToggleDelModal , setToggleDelModal] = useState(false)
+  const {user} = useSelector((state : TReducer) => state.user.data)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [ToggleModal , setToggleModal] = useState(false)
+
   const ContentModal:TModalData = {
         text : "Êtes-vous sûr de vouloir vous déconnecter ?",
         valide : {
@@ -34,6 +39,20 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             background : "green-500",
             color : "white"
             }, 
+  } 
+
+  const DeleteModal:TModalData = {
+        text : "Êtes-vous sûr de vouloir supprimer votre compte ?",
+        valide : {
+            text : "Oui",
+            background : "red-500",
+            color : "white"
+        },
+        close : {
+            text : "Non",
+            background : "green-500",
+            color : "white"
+            }, 
     } 
 
   const valideDeconnexion = ()=>{
@@ -41,6 +60,15 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
     navigate("/")
   }
 
+
+  const DeleteAccount = async ()=>{
+    const deleted = await deleteUser(user?.id as number)
+
+    if(deleted.status){
+      dispatch(deconnexion(""))
+      navigate("/")
+    }
+  }
 
 
 
@@ -77,6 +105,7 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             <span onClick={()=>changeSection("Commande")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><SiHomeassistantcommunitystore />Commande</span>
             <span onClick={()=>changeSection("User")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><FaUsers />Utilistateur</span>
             <span onClick={()=>changeSection("Pass")} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 font-medium hover:bg-gray-300 flex items-center"><GrServices />Changer de mot de passe</span>
+            <span onClick={()=>setToggleDelModal(true)} className="w-full px-8 py-4 text-lg gap-2 cursor-pointer bg-gray-200 text-red-500 font-medium hover:bg-gray-300 flex items-center"><LuTrash />Supprimer mon compte</span>
         </ul>
 
         <button onClick={()=>setToggleModal(true)} className="w-full max-lg:hidden px-8 py-4 text-lg gap-2 cursor-pointer bg-[#FF0022] text-white font-medium  flex items-center">
@@ -89,6 +118,15 @@ export default function SideMenu({change} : {change : (name:string)=> void}) {
             Data={ContentModal}
             Action={valideDeconnexion}
             closeModal={()=>setToggleModal(false)}
+          />
+        }
+
+        {
+          ToggleDelModal &&
+          <Modal 
+            Data={DeleteModal}
+            Action={DeleteAccount}
+            closeModal={()=>setToggleDelModal(false)}
           />
         }
     </div>

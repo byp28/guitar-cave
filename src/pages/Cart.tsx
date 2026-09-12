@@ -24,6 +24,11 @@ export default function Cart({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
             navigation('/register')
             return 
         }
+
+        if(!user.addressId){
+            navigation('/create-address')
+            return 
+        }
         navigation('/commande')
     }
 

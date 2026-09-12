@@ -46,6 +46,7 @@ export default function ClientAddress() {
                         setError(true)
                     }else if(addressCreate.status === 201){
                         setLoading(false)
+                        navigate("/client-admin")
                         navigate(0)
                     }
                     else{
@@ -58,6 +59,7 @@ export default function ClientAddress() {
                         setError(true)
                     }else if(addressCreate.status === 201){
                         setLoading(false)
+                        navigate("/client-admin")
                         navigate(0)
                     }
                     else{

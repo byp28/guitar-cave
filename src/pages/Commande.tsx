@@ -13,7 +13,7 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
     const {cart} = useSelector((state: TReducer) => state.cart.data)
     const {user} = useSelector((state: TReducer) => state.user.data)
     const [address, setAdress] = useState<TAddress|null>(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
     const dispatch = useDispatch()
     const navigation = useNavigate()
 
@@ -42,6 +42,7 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
     }
 
     const fetchAdress = async (id:number)=>{
+        setLoading(true)
         const fAddress = await getAddressByUserId(id)
     
         if(fAddress.status === 200){

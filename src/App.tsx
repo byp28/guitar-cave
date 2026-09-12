@@ -22,6 +22,7 @@ import ClientAdmin from './pages/ClientAdmin'
 import Commande from './pages/Commande'
 import AddAdress from './pages/AddAdress'
 import NotFound from './pages/NotFound'
+import ClientAddress from './pages/Client/ClientAddress'
 
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
         <Route path='/register' element={<Register toggleNavBar={toggleNavBar} />} />
         <Route path='/login' element={<Login toggleNavBar={toggleNavBar} />} />
         <Route path='/cart' element={<Cart toggleNavBar={toggleNavBar} />} />
+        {
+          user?.type === "Client" && <Route path='/create-address' element={<ClientAddress />}/>
+        } 
         {
           user?.type === "Admin" && <Route path='/admin' element={<Admin toggleNavBar={toggleNavBar} />}/>
         }

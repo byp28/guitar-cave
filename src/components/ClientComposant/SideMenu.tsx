@@ -1,14 +1,18 @@
 import { useState } from "react"
 import Modal, { type TModalData } from "../../layouts/Modal"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { deconnexion } from "../../features/UserSlice"
 import { useNavigate } from "react-router-dom"
+import { deleteUser } from "../../utils/guitarCaveApi"
+import type { TReducer } from "../../Store"
 
 export default function SideMenu({Manage,setManage}: {Manage:string, setManage : (value:string)=>void}) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const {user} = useSelector((state : TReducer) => state.user.data)
 
     const [ToggleModal , setToggleModal] = useState(false)
+    const [ToggleDelModal , setToggleDelModal] = useState(false)
     const ContentModal:TModalData = {
         text : "Êtes-vous sûr de vouloir vous déconnecter ?",
         valide : {
@@ -23,9 +27,31 @@ export default function SideMenu({Manage,setManage}: {Manage:string, setManage :
             }, 
     } 
 
+    const DeleteModal:TModalData = {
+        text : "Êtes-vous sûr de vouloir supprimer votre compte ?",
+        valide : {
+            text : "Oui",
+            background : "red-500",
+            color : "white"
+        },
+        close : {
+            text : "Non",
+            background : "green-500",
+            color : "white"
+            }, 
+    } 
+
     const valideDeconnexion = ()=>{
         dispatch(deconnexion(""))
         navigate("/")
+    }
+
+    const DeleteAccount = async ()=>{
+        const deleted = await deleteUser(user?.id as number)
+        if(deleted.status){
+            dispatch(deconnexion(""))
+            navigate("/")
+        }
     }
 
   return (
@@ -69,6 +95,9 @@ export default function SideMenu({Manage,setManage}: {Manage:string, setManage :
                         Manage === "Password" && <span className='w-1 h-4 bg-black'></span>
                     }      
                 </span>
+                <span onClick={()=> setToggleDelModal(true)} className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
+                    Supprimer mon compte
+                </span>
                 <span onClick={()=> setToggleModal(true)} className='w-fulll py-1 text-lg text-red-500 font-semibold flex justify-between items-center cursor-pointer hover:text-red-700'>
                     Se déconnecter
                 </span>
@@ -78,6 +107,15 @@ export default function SideMenu({Manage,setManage}: {Manage:string, setManage :
                         Data={ContentModal}
                         Action={valideDeconnexion}
                         closeModal={()=>setToggleModal(false)}
+                    />
+                }
+
+                {
+                    ToggleDelModal &&
+                    <Modal 
+                        Data={DeleteModal}
+                        Action={DeleteAccount}
+                        closeModal={()=>setToggleDelModal(false)}
                     />
                 }
             </div>
