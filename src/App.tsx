@@ -28,7 +28,6 @@ import ClientAddress from './pages/Client/ClientAddress'
 function App() {
 
   const dispatch = useDispatch()
-  const [isAdmin, setIsAdmin] = useState(false)
   const [hiddeHeader, setHiddeHeader] = useState(false)
 
   const {user} = useSelector((state : TReducer) => state.user.data)
@@ -41,13 +40,6 @@ function App() {
   useEffect(()=>{
     dispatch(fillCart("")) 
     Appdispatch(verifieConnection())
-    if(user){
-      if(user.type === "Admin"){
-        setIsAdmin(true)
-      }else{
-        setIsAdmin(false)
-      }
-    }
   }, [])
   
   return (

@@ -10,7 +10,6 @@ export default function ClientAddress() {
     const {user} = useSelector((state : TReducer) => state.user.data)
     const [address, setAdress] = useState<TAddress|null>(null)
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(true)
     const navigate = useNavigate()
 
     const fetchAdress = async (id:number)=>{
@@ -43,7 +42,7 @@ export default function ClientAddress() {
 
                     if(addressCreate.status === 404){
                         setLoading(false)
-                        setError(true)
+                        
                     }else if(addressCreate.status === 201){
                         setLoading(false)
                         navigate("/client-admin")
@@ -56,7 +55,7 @@ export default function ClientAddress() {
                     const addressCreate = await createAddress(newAddress,user?.id as number);
                     if(addressCreate.status === 404){
                         setLoading(false)
-                        setError(true)
+                        
                     }else if(addressCreate.status === 201){
                         setLoading(false)
                         navigate("/client-admin")
@@ -68,7 +67,6 @@ export default function ClientAddress() {
                 }
             }catch(error){
               setLoading(false)
-              setError(true)
               console.log(error, "er")
             }
         

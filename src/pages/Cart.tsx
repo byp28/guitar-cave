@@ -1,4 +1,4 @@
-import { FaArrowRight, FaStripe } from "react-icons/fa";
+import { FaArrowRight} from "react-icons/fa";
 import Article from "../components/Article";
 import {  useSelector } from "react-redux";
 import type { TReducer } from "../Store";
