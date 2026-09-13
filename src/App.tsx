@@ -24,6 +24,8 @@ import AddAdress from './pages/AddAdress'
 import NotFound from './pages/NotFound'
 import ClientAddress from './pages/Client/ClientAddress'
 import Contact from './pages/Contact'
+import Service from './pages/Service'
+import Mention from './pages/Mention'
 
 
 function App() {
@@ -50,6 +52,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home toggleNavBar={toggleNavBar} />} />
         <Route path='/contact' element={<Contact toggleNavBar={toggleNavBar} />} />
+        <Route path='/service' element={<Service toggleNavBar={toggleNavBar} />} />
+        <Route path='/mention' element={<Mention toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie' element={<AllCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie/:id' element={<AllSubCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie/sous-categorie/:id' element={<AllProductBySubCategorie toggleNavBar={toggleNavBar} />} />
