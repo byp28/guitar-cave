@@ -33,7 +33,7 @@ export default function Footer() {
             <Link className="font-semibold " to={'/'}>Accueil</Link>
             <Link className="font-semibold " to={'/categorie'}>Catégorie</Link>
             <Link className="font-semibold " to={'/'}>Service</Link>
-            <Link className="font-semibold " to={'/'}>Contact</Link>
+            <Link className="font-semibold " to={'/contact'}>Contact</Link>
             <Link className="font-semibold " to={"/login"}>Se connecter</Link>
             <Link className="font-semibold " to={"/register"}>Créer un compte</Link>
           </div>

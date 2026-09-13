@@ -37,7 +37,6 @@ export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
         .then((res)=>{
           const data = res.data
           dispatch(fillSousCategorie(data))
-          console.log(data)
           return data
         }) 
       )
@@ -54,7 +53,7 @@ export default function Admin({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
     if(categories.length == 0 || sousCategories.length == 0){
       fillState() 
     }
-    
+    document.title = "Admin"
     toggleNavBar(false)
   },[categories])
 

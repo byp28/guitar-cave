@@ -69,6 +69,7 @@ export default function Commande({toggleNavBar} : {toggleNavBar : (toggle:boolea
         if(user?.addressId){
             fetchAdress(user.addressId)
         }
+        document.title = "Valider la commande"
     },[])
 
 

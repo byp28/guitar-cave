@@ -84,6 +84,7 @@ export default function Register({toggleNavBar} : {toggleNavBar : (toggle:boolea
   
   useEffect(()=>{
     toggleNavBar(false)
+    document.title = "Créer un Compte"
   },[])
 
 

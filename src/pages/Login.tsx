@@ -59,6 +59,7 @@ export default function Login({toggleNavBar} : {toggleNavBar : (toggle:boolean)=
 
 
     useEffect(()=>{
+      document.title = "Se connecter"
       toggleNavBar(false)
     },[])
   

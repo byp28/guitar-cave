@@ -23,6 +23,7 @@ export default function ClientAdmin({toggleNavBar} : {toggleNavBar : (toggle:boo
 
   useEffect(()=>{
     toggleNavBar(true)
+    document.title = "Espace client"
   },[])
 
   return (

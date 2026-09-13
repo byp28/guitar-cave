@@ -72,13 +72,13 @@ export default function Home({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
   const randomCategorie=()=>{
     if(categories.length > 0){
       setRandomCat(generateUniqueIndexes(categories.length, 3))
-      console.log(randomCat)
     }
   }
   
 
   useEffect(()=>{
     toggleNavBar(true)
+    document.title = "GuitarCave"
     if(loadingSubCategorie || loadingCategorie){
       Appdispatch(fetchProduct())
       Appdispatch(fetchSubCategorie())

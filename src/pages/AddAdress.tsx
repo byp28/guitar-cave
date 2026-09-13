@@ -34,7 +34,6 @@ export default function AddAdress({toggleNavBar} : {toggleNavBar : (toggle:boole
           if(addressCreate.status === 404){
             setLoading(false)
             setError(true)
-            console.log(addressCreate.data.status)
           }else if(addressCreate.status === 201){
             setLoading(false)
             navigate("/")

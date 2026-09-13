@@ -23,6 +23,7 @@ import Commande from './pages/Commande'
 import AddAdress from './pages/AddAdress'
 import NotFound from './pages/NotFound'
 import ClientAddress from './pages/Client/ClientAddress'
+import Contact from './pages/Contact'
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
       {hiddeHeader ? <Header /> : null}
       <Routes>
         <Route path='/' element={<Home toggleNavBar={toggleNavBar} />} />
+        <Route path='/contact' element={<Contact toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie' element={<AllCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie/:id' element={<AllSubCategorie toggleNavBar={toggleNavBar} />} />
         <Route path='/categorie/sous-categorie/:id' element={<AllProductBySubCategorie toggleNavBar={toggleNavBar} />} />

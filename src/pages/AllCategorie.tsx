@@ -24,7 +24,7 @@ export default function AllCategorie({toggleNavBar} : {toggleNavBar : (toggle:bo
         
         if(!loadingCategorie){
             window.scrollTo(0, 0);
-      
+            document.title = "Toute nos categories"
         }
     },[categories])
     

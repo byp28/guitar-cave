@@ -21,7 +21,6 @@ export default function AllSubCategorie({toggleNavBar} : {toggleNavBar : (toggle
 
     const updateState = ()=>{
         SetCategorie(categories.find((cat)=> cat.id === parseInt(params.id as string)))
-        console.log(categorie)
     }
 
 
@@ -35,6 +34,7 @@ export default function AllSubCategorie({toggleNavBar} : {toggleNavBar : (toggle
         if(!loadingCategorie || !loadingSubCategorie){
             window.scrollTo(0, 0);
             updateState()
+            document.title = categorie?.designation as string
         }
     },[sousCategories])
     

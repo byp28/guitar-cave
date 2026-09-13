@@ -137,6 +137,7 @@ export default function Produit({toggleNavBar} : {toggleNavBar : (toggle:boolean
         if(!loadingSubCategorie || !loading){
             updateStateProduct()
             updateStateSub()
+            document.title = product?.nom as string
         }
         if(ProductInCart()){
             let prod = cart.find((c)=> c.id===2)

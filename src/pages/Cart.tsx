@@ -35,7 +35,9 @@ export default function Cart({toggleNavBar} : {toggleNavBar : (toggle:boolean)=>
     useEffect(()=>{
         toggleNavBar(true)
         setTotal(calculatTotal())
+        document.title = "Panier"
     },[cart])
+    
   return (
     <div className="w-full px-10 py-10 max-lg:px-5 min-h-screen flex flex-col gap-12">
         <h4 className="text-6xl max-lg:text-5xl font-semibold">Mon panier</h4>

@@ -73,6 +73,7 @@ export default function AllProductBySubCategorie({toggleNavBar} : {toggleNavBar 
         if(!loadingCategorie || !loadingSubCategorie || !loading){
             window.scrollTo(0, 0);
             updateState()
+            document.title = sousCategorie?.designation as string
         }
     },[sousCategories])
     
