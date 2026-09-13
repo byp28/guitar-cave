@@ -26,12 +26,12 @@ export default function CategorieIndex({changeAction, selectCategorie} : {change
         valide : {
             text : "Supprimer",
             color : "white",
-            background : "red-400"
+            background : "red-500"
         } ,
         close : {
             text : "Annuler",
             color : "white",
-            background : "green-400"
+            background : "green-500"
         } 
     }
 

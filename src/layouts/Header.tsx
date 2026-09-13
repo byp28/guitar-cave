@@ -95,7 +95,7 @@ export default function Header() {
                 }
             </div>
             <div className="w-1/3 max-lg:hidden flex gap-6">
-                <Link className="font-semibold hover:text-[#FF0022]" to={'/'}>Service</Link>
+                <Link className="font-semibold hover:text-[#FF0022]" to={'/service'}>Service</Link>
                 <Link className="font-semibold hover:text-[#FF0022]" to={'/contact'}>Contact</Link>
             </div>
             <Link to={"/"} className="w-1/3 flex items-center justify-center text-4xl font-semibold italic">Guitar<span className="text-[#FF0022]">Cave</span></Link>
@@ -178,7 +178,7 @@ export default function Header() {
            <div className={toggleMenuSection ? "w-full px-8 py-4 flex flex-col gap-4" : "hidden"}>
                 <Link className="font-semibold " to={'/'}>Accueil</Link>
                 <Link className="font-semibold " to={'/categorie'}>Catégorie</Link>
-                <Link className="font-semibold " to={'/'}>Service</Link>
+                <Link className="font-semibold " to={'/service'}>Service</Link>
                 <Link className="font-semibold " to={'/contact'}>Contact</Link>
                 {
                     connected 

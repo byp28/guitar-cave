@@ -32,7 +32,7 @@ export default function Footer() {
           <div className="flex flex-col h-30 max-lg:h-auto max-lg:gap-6 max-lg:w-full max-lg:items-center flex-wrap gap-x-40 gap-4">
             <Link className="font-semibold " to={'/'}>Accueil</Link>
             <Link className="font-semibold " to={'/categorie'}>Catégorie</Link>
-            <Link className="font-semibold " to={'/'}>Service</Link>
+            <Link className="font-semibold " to={'/service'}>Service</Link>
             <Link className="font-semibold " to={'/contact'}>Contact</Link>
             <Link className="font-semibold " to={"/login"}>Se connecter</Link>
             <Link className="font-semibold " to={"/register"}>Créer un compte</Link>
@@ -42,7 +42,7 @@ export default function Footer() {
                 <span className="w-10 h-10 flex items-center text-black text-center bg-white rounded-full"><IoLogoGithub className="w-full h-6"/></span>
                 <span className="w-10 h-10 flex items-center text-black text-center bg-white rounded-full"><FaLinkedinIn className="w-full h-6" /></span>
             </div>
-            <Link className="font-semibold  " to={'/'}>Mention Légal</Link>
+            <Link className="font-semibold  " to={'/mention'}>Mention Légal</Link>
           </div>
         </div>
         <span></span>
